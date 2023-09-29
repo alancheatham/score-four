@@ -1,23 +1,26 @@
 {
-  "name": "score-four",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "react": "latest",
-    "react-dom": "latest",
-    "next": "latest"
-  },
-  "devDependencies": {
-    "autoprefixer": "latest",
-    "postcss": "latest",
-    "tailwindcss": "latest",
-    "eslint": "latest",
-    "eslint-config-next": "latest"
-  }
+	"name": "score-four",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"next": "latest",
+		"pusher": "^5.1.3",
+		"pusher-js": "^8.3.0",
+		"react": "latest",
+		"react-dom": "latest"
+	},
+	"devDependencies": {
+		"autoprefixer": "latest",
+		"eslint": "latest",
+		"eslint-config-next": "latest",
+		"postcss": "latest",
+		"prettier": "^3.0.3",
+		"tailwindcss": "latest"
+	}
 }
