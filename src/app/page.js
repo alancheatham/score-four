@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import Pusher from 'pusher-js'
 
+import { checkIfGameWon } from '@/util/game'
+
 const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
 	cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
 })
@@ -11,7 +13,7 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
 function Peg({ beads, onPegClick, className }) {
 	return (
 		<div
-			className={`bg-gray-400 rounded w-8 h-28 flex flex-col-reverse items-center justify-start overflow-hidden cursor-pointer ${className}`}
+			className={`bg-gray-400 rounded w-8 h-28 flex flex-col-reverse items-center justify-start overflow-hidden ${className}`}
 			onClick={onPegClick}
 		>
 			{beads
@@ -22,7 +24,7 @@ function Peg({ beads, onPegClick, className }) {
 		</div>
 	)
 }
-function Grid({ board, onPegClick, winningPegs }) {
+function Grid({ board, onPegClick, winningPegs, myTurn }) {
 	const pegs = []
 	for (let i = 0; i < 16; i++) {
 		pegs.push(board.slice(i * 4, i * 4 + 4))
@@ -35,29 +37,39 @@ function Grid({ board, onPegClick, winningPegs }) {
 					beads={beads}
 					key={`peg-${i}`}
 					onPegClick={() => onPegClick(i)}
-					className={winningPegs.length > 0 && !winningPegs.includes(i) && 'opacity-50'}
+					className={`${winningPegs.length > 0 && !winningPegs.includes(i) && 'opacity-50'} ${
+						myTurn && !beads.find((x) => x === 0) && 'cursor-pointer'
+					}`}
 				/>
 			))}
 		</div>
 	)
 }
+
 export default function Game() {
 	const [board, setBoard] = useState(Array(64).fill(0))
-	const [whiteToMove, setWhiteToMove] = useState(false)
 	const [winner, setWinner] = useState('')
 	const [winningPegs, setWinningPegs] = useState([])
+	const [myTurn, setMyTurn] = useState(true)
 
+	// listen for moves
 	useEffect(() => {
 		const channel = pusher.subscribe('score-four')
 
 		channel.bind('move', (data) => {
 			const { board, winnerInfo } = data.message
 			setBoard(board)
+			setMyTurn(true)
 
 			if (winnerInfo) {
 				setWinningPegs(winnerInfo.winningPegs)
 				setWinner(winnerInfo.winner)
 			}
+		})
+
+		channel.bind('new-game', (data) => {
+			const { board } = data.message
+			setMyTurn(true)
 		})
 
 		return () => {
@@ -68,27 +80,70 @@ export default function Game() {
 	const handlePegClick = (i) => {
 		const newBoard = [...board]
 		const peg = newBoard.slice(i * 4, i * 4 + 4)
-
 		const emptySlot = peg.findIndex((x) => x === 0)
-		if (emptySlot === -1) return
 
-		fetch('/api/move', {
+		if (!myTurn || emptySlot === -1) {
+			return
+		}
+
+		setMyTurn(false)
+
+		fetch('/api', {
 			method: 'POST',
-			body: JSON.stringify({ message: { slot: i * 4 + emptySlot }, sender: 'player' }),
+			body: JSON.stringify({ message: { type: 'move', slot: i * 4 + emptySlot }, sender: 'player' }),
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		})
 
-		newBoard[i * 4 + emptySlot] = whiteToMove ? 1 : -1
+		newBoard[i * 4 + emptySlot] = !myTurn ? 1 : -1
 		setBoard(newBoard)
-		// setWhiteToMove(!whiteToMove)
+
+		const winner = checkIfGameWon(newBoard)
+		console.log(winner)
+		if (winner) {
+			setWinningPegs(winner.winningPegs)
+			setWinner(winner.winner)
+		}
+	}
+
+	const handleRestartClick = () => {
+		setBoard(Array(64).fill(0))
+		setWinningPegs([])
+		setWinner('')
+
+		const res = fetch('/api', {
+			method: 'POST',
+			body: JSON.stringify({ message: { type: 'new-game' }, sender: 'player' }),
+		})
 	}
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			{winner && <div>{winner}</div>}
-			<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} />
+			<div className={`relative ${winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''}`}>
+				{winner && (
+					<div
+						className="text-6xl absolute text-center w-full left-1/2"
+						style={{ top: '-70px', transform: 'translateX(-50%)' }}
+					>
+						{winner}
+					</div>
+				)}
+				<div>
+					<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} />
+				</div>
+				{winner && (
+					<button
+						className={`text-xl absolute top-1/2 p-1 border-2 rounded ${
+							winner === 'W' ? 'border-white' : 'border-black'
+						}`}
+						style={{ right: '-130px', transform: 'translateY(-50%)' }}
+						onClick={handleRestartClick}
+					>
+						Rematch
+					</button>
+				)}
+			</div>
 		</main>
 	)
 }

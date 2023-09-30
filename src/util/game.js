@@ -302,7 +302,14 @@ function threatensVictory(board, whiteToMove) {
 	return false
 }
 
-function checkIfGameWon(board) {
+export function checkIfGameWon(board) {
+	if (board.length !== 16) {
+		const newBoard = []
+		for (let i = 0; i < 16; i++) {
+			newBoard.push(board.slice(i * 4, i * 4 + 4))
+		}
+		board = newBoard
+	}
 	let winner = ''
 
 	// same level
