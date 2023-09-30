@@ -100,7 +100,6 @@ export default function Game() {
 		setBoard(newBoard)
 
 		const winner = checkIfGameWon(newBoard)
-		console.log(winner)
 		if (winner) {
 			setWinningPegs(winner.winningPegs)
 			setWinner(winner.winner)
@@ -121,12 +120,19 @@ export default function Game() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
 			<div className={`relative ${winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''}`}>
-				{winner && (
+				{winner ? (
 					<div
 						className="text-6xl absolute text-center w-full left-1/2"
 						style={{ top: '-70px', transform: 'translateX(-50%)' }}
 					>
 						{winner}
+					</div>
+				) : (
+					<div
+						className={`text-xl absolute text-center w-full left-1/2 ${!myTurn && 'text-white'}`}
+						style={{ top: '-50px', transform: 'translateX(-50%)' }}
+					>
+						{myTurn ? 'You' : 'Computer'}
 					</div>
 				)}
 				<div>
@@ -134,7 +140,7 @@ export default function Game() {
 				</div>
 				{winner && (
 					<button
-						className={`text-xl absolute top-1/2 p-1 border-2 rounded ${
+						className={`text-xl absolute top-1/2 p-1 border-2 rounded hover:opacity-50 ${
 							winner === 'W' ? 'border-white' : 'border-black'
 						}`}
 						style={{ right: '-130px', transform: 'translateY(-50%)' }}
