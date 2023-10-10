@@ -1,7 +1,8 @@
-import { movePlayed } from '@/util/game'
+import { NextResponse } from 'next/server'
+import { movePlayed } from '@/lib/game'
+import { generateGameId } from '@/lib/util'
 import Pusher from 'pusher'
 
-let board = Array(64).fill(0)
 export const pusher = new Pusher({
 	appId: process.env.PUSHER_APP_ID,
 	key: process.env.NEXT_PUBLIC_PUSHER_KEY,
@@ -9,6 +10,9 @@ export const pusher = new Pusher({
 	cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
 	useTLS: true,
 })
+
+let board = Array(64).fill(0)
+const games = {}
 
 const handleMove = async (message, sender) => {
 	board[message.slot] = -1
@@ -27,17 +31,22 @@ const handleMove = async (message, sender) => {
 }
 
 const handleNewGame = async () => {
-	board = Array(64).fill(0)
-	const response = await pusher.trigger('score-four', 'new-game', {
-		message: {
-			board,
-		},
-		sender: 'computer',
-	})
+	const gameId = generateGameId()
+	games[gameId] = {
+		board: Array(64).fill(0),
+		winner: '',
+		winningPegs: [],
+		whiteToMove: true,
+	}
 
-	return new Response('success', {
-		status: 200,
-	})
+	return NextResponse.json(
+		{
+			gameId,
+		},
+		{
+			status: 200,
+		}
+	)
 }
 
 export async function POST(req, res) {

@@ -1,0 +1,98 @@
+[debug] [2023-10-08T18:15:00.858Z] ----------------------------------------------------------------------
+[debug] [2023-10-08T18:15:00.860Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy
+[debug] [2023-10-08T18:15:00.861Z] CLI Version:   12.6.2
+[debug] [2023-10-08T18:15:00.861Z] Platform:      darwin
+[debug] [2023-10-08T18:15:00.861Z] Node Version:  v16.16.0
+[debug] [2023-10-08T18:15:00.863Z] Time:          Sun Oct 08 2023 15:15:00 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-08T18:15:00.863Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-08T18:15:00.965Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-08T18:15:00.966Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-08T18:15:00.967Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-08T18:15:00.969Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-08T18:15:00.970Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-08T18:15:00.971Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-08T18:15:01.998Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-08T18:15:02.003Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-08T18:15:02.005Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-08T18:15:02.410Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-08T18:15:02.411Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four"},"state":"ACTIVE","etag":"1_0ee4cd22-d69e-470a-b974-11cb8771de2e"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]    Downloading swc package @next/swc-darwin-x64...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/pusher/lib/requests.js
+./node_modules/pusher/lib/pusher.js
+./src/app/api/route.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/6) ...
+
+[info]    Generating static pages (1/6) 
+
+[info] (node:81387) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (2/6) 
+
+[info]    Generating static pages (4/6) 
+
+[info]  ✓ Generating static pages (6/6) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    559 B          85.5 kB
+├ ○ /_not-found                          878 B          80.1 kB
+├ λ /[id]                                19.6 kB         105 kB
+└ λ /api                                 0 B                0 B
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-65fc85184976041b.js       26.6 kB
+  ├ chunks/fd9d1056-cda7bdae809f14dd.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-1aa34010bf971e74.js   1.67 kB
+
+
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-08T18:16:40.652Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
