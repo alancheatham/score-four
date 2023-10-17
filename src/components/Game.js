@@ -1,10 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Pusher from 'pusher-js'
 import { playMove } from '@/app/api/post-data'
 import { pegToNotation } from '@/lib/util'
+import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
+import { listenToGame } from '@/app/api/get-data'
 
 import { checkIfGameWon } from '@/lib/game'
 
@@ -48,36 +50,24 @@ function Grid({ board, onPegClick, winningPegs, myTurn }) {
 	)
 }
 
-export default function Game({ game }) {
+export default function Game({ game, id }) {
 	const [board, setBoard] = useState(JSON.parse(game.moves.slice(-1)[0].position))
+	const [status, setStatus] = useState(game.status)
 	const [winner, setWinner] = useState('')
 	const [winningPegs, setWinningPegs] = useState([])
 	const [myTurn, setMyTurn] = useState(true)
+	const mounted = useRef(false)
 
-	// listen for moves
 	useEffect(() => {
-		const channel = pusher.subscribe('score-four')
-
-		channel.bind('move', (data) => {
-			const { board, winnerInfo } = data.message
-			setBoard(board)
-			setMyTurn(true)
-
-			if (winnerInfo) {
-				setWinningPegs(winnerInfo.winningPegs)
-				setWinner(winnerInfo.winner)
-			}
-		})
-
-		channel.bind('new-game', (data) => {
-			const { board } = data.message
-			setMyTurn(true)
-		})
-
-		return () => {
-			pusher.unsubscribe('score-four')
+		if (!mounted.current) {
+			listenToGame(id, (gameData) => {
+				console.log(gameData)
+				setBoard(JSON.parse(gameData.moves.slice(-1)[0].position))
+				setStatus(gameData.status)
+			})
+			mounted.current = true
 		}
-	}, [board])
+	}, [mounted, id])
 
 	const handlePegClick = (i) => {
 		const newBoard = [...board]
@@ -90,16 +80,8 @@ export default function Game({ game }) {
 
 		setMyTurn(false)
 
-		// fetch('/api', {
-		// 	method: 'POST',
-		// 	body: JSON.stringify({ message: { type: 'move', slot: i * 4 + emptySlot }, sender: 'player' }),
-		// 	headers: {
-		// 		'Content-Type': 'application/json',
-		// 	},
-		// })
-
 		newBoard[i * 4 + emptySlot] = !myTurn ? 1 : -1
-		playMove(game.id, pegToNotation(i), newBoard)
+		playMove(id, pegToNotation(i), newBoard)
 		setBoard(newBoard)
 
 		const winner = checkIfGameWon(newBoard)
@@ -135,7 +117,7 @@ export default function Game({ game }) {
 						className={`text-xl absolute text-center w-full left-1/2 ${!myTurn && 'text-white'}`}
 						style={{ top: '-50px', transform: 'translateX(-50%)' }}
 					>
-						{myTurn ? 'You' : 'Computer'}
+						{status === AVAILABLE ? 'Waiting for Opponent' : myTurn ? 'You' : 'Computer'}
 					</div>
 				)}
 				<div>
