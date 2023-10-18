@@ -42,7 +42,7 @@ export default function HomePage() {
 		<main className="flex min-h-screen flex-col items-center justify-between p-24">
 			<div className="relative">
 				<button
-					className="text-xl absolute top-1/2 p-1 border-2 rounded hover:opacity-50"
+					className="text-xl absolute top-1/2 p-1 border-2 text-white rounded hover:opacity-50"
 					style={{ right: '-130px', transform: 'translateY(-50%)' }}
 					onClick={handleCreateClick}
 				>
@@ -50,9 +50,9 @@ export default function HomePage() {
 				</button>
 			</div>
 			<div>
-				<div>Available Games</div>
+				<div className="text-white">Available Games</div>
 				{availableGames.map((game, i) => (
-					<button key={`game-${i}`} onClick={() => handleJoinClick(game.id)}>
+					<button className="text-white" key={`game-${i}`} onClick={() => handleJoinClick(game.id)}>
 						{game.blackPlayer.displayName}
 					</button>
 				))}

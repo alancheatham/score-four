@@ -16,21 +16,9 @@ export function listenAvailableGames(cb) {
 
 export function listenToGame(id, cb) {
 	const unsubscribe = onSnapshot(doc(db, 'games', id), (snapshot) => {
-		console.log('update!!!')
 		cb({ id: snapshot.id, ...snapshot.data() })
 	})
 }
-// export async function getGame(id) {
-// 	const snapshot = await get(child(ref(db), `games/${id}`))
-// 	let game
-// 	if (snapshot.exists()) {
-// 		game = snapshot.val()
-// 	} else {
-// 		console.log('No data available')
-// 	}
-
-// 	return game
-// }
 
 export async function getGame(id) {
 	const snapshot = await getDoc(doc(db, 'games', id))
