@@ -12,6 +12,7 @@ export default function HomePage() {
 	useEffect(() => {
 		if (!mounted.current) {
 			listenAvailableGames((games) => {
+				console.log(games)
 				setAvailableGames(games)
 			})
 			mounted.current = true
@@ -39,21 +40,22 @@ export default function HomePage() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-24">
-			<div className="relative">
-				<button
-					className="text-xl absolute top-1/2 p-1 border-2 text-white rounded hover:opacity-50"
-					style={{ right: '-130px', transform: 'translateY(-50%)' }}
-					onClick={handleCreateClick}
-				>
+		<main className="flex min-h-screen flex-col items-center p-24">
+			<div className="text-5xl text-white">SCORE FOUR</div>
+			<div>
+				<button className="text-xl p-1 border-2 text-white rounded hover:opacity-50 m-12" onClick={handleCreateClick}>
 					New Game
 				</button>
 			</div>
 			<div>
 				<div className="text-white">Available Games</div>
 				{availableGames.map((game, i) => (
-					<button className="text-white" key={`game-${i}`} onClick={() => handleJoinClick(game.id)}>
-						{game.blackPlayer.displayName}
+					<button
+						className="text-white text-center border-2 p-1 rounded hover:opacity-50"
+						key={`game-${i}`}
+						onClick={() => handleJoinClick(game.id)}
+					>
+						Open Game {game.blackPlayer.displayName}
 					</button>
 				))}
 			</div>

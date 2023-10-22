@@ -33,3 +33,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+score-four-firebase-adminsdk-n0sko-1163530d2e.json

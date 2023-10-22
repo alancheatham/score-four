@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server'
 import { movePlayed } from '@/lib/game'
 import { generateGameId } from '@/lib/util'
-import Pusher from 'pusher'
+// import Pusher from 'pusher'
 
-export const pusher = new Pusher({
-	appId: process.env.PUSHER_APP_ID,
-	key: process.env.NEXT_PUBLIC_PUSHER_KEY,
-	secret: process.env.PUSHER_SECRET,
-	cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
-	useTLS: true,
-})
+// export const pusher = new Pusher({
+// 	appId: process.env.PUSHER_APP_ID,
+// 	key: process.env.NEXT_PUBLIC_PUSHER_KEY,
+// 	secret: process.env.PUSHER_SECRET,
+// 	cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER,
+// 	useTLS: true,
+// })
 
 let board = Array(64).fill(0)
 const games = {}
