@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect, useRef, useMemo, Fragment } from 'react'
+import { useState, useEffect, useRef, useMemo, Fragment, useCallback } from 'react'
 import { playMove } from '@/app/api/post-data'
 import { pegToNotation } from '@/lib/util'
 import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
@@ -19,7 +19,10 @@ function Peg({ beads, onPegClick, className }) {
 			{beads
 				.filter((bead) => bead !== 0)
 				.map((bead, i) => (
-					<div className={`w-full h-6 ${bead === 1 ? 'bg-white' : 'bg-black'}`} key={`bead-${i}`}></div>
+					<div
+						className={`w-full h-6 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
+						key={`bead-${i}`}
+					></div>
 				))}
 		</div>
 	)
@@ -56,13 +59,20 @@ export default function Game({ game, id }) {
 	const isBlack = localStorage.getItem('user') === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 
-	const currentMoveIndex = useMemo(() => {
-		return moves.findIndex((x) => x.position === JSON.stringify(board))
-	}, [moves, board])
-	console.log(1, currentMoveIndex)
+	const currentMoveIndex = moves.findIndex((x) => x.position === JSON.stringify(board))
 	const isCurrentMove = currentMoveIndex === moves.length - 1
 
 	const moveContainerRef = useRef(null)
+
+	useEffect(() => {
+		if (moveContainerRef.current) {
+			const scrollAmount =
+				moveContainerRef.current.scrollHeight * (parseInt((currentMoveIndex - 1) / 2) / (moves.length / 2)) -
+				moveContainerRef.current.getBoundingClientRect().height / 2 +
+				30
+			moveContainerRef.current.scrollTop = scrollAmount
+		}
+	}, [moveContainerRef, currentMoveIndex, moves])
 
 	const newWinner = checkIfGameWon(board)
 	if (!winner && newWinner) {
@@ -70,35 +80,42 @@ export default function Game({ game, id }) {
 		setWinner(newWinner.winner)
 	}
 
-	const moveClick = (move) => {
-		console.log('ddhi', move)
-		setBoard(JSON.parse(move.position))
-		setWinner('')
-		setWinningPegs([])
-	}
+	const moveClick = useCallback(
+		(move) => {
+			setBoard(JSON.parse(move.position))
+			setWinner('')
+			setWinningPegs([])
+		},
+		[moveContainerRef, currentMoveIndex, moves]
+	)
 
-	const previousMove = () => {
-		if (currentMoveIndex > 1) {
-			console.log('cliking', currentMoveIndex)
-			moveClick(moves[currentMoveIndex - 1])
-		}
-	}
-	const nextMove = () => {
-		console.log('hi', currentMoveIndex, moves.length - 1)
-		if (currentMoveIndex < moves.length - 1) {
-			moveClick(moves[currentMoveIndex + 1])
-		}
-	}
-	const firstMove = () => {
-		if (currentMoveIndex > 1) {
-			moveClick(moves[1])
-		}
-	}
-	const lastMove = () => {
-		if (currentMoveIndex < moves.length - 1) {
-			moveClick(moves[moves.length - 1])
-		}
-	}
+	const handleKeyStroke = useCallback(
+		(event) => {
+			switch (event.key) {
+				case 'ArrowLeft':
+					if (currentMoveIndex > 1) {
+						moveClick(moves[currentMoveIndex - 1])
+					}
+					break
+				case 'ArrowRight':
+					if (currentMoveIndex < moves.length - 1) {
+						moveClick(moves[currentMoveIndex + 1])
+					}
+					break
+				case 'ArrowUp':
+					if (currentMoveIndex > 1) {
+						moveClick(moves[1])
+					}
+					break
+				case 'ArrowDown':
+					if (currentMoveIndex < moves.length - 1) {
+						moveClick(moves[moves.length - 1])
+					}
+					break
+			}
+		},
+		[currentMoveIndex, moves, moveClick]
+	)
 
 	useEffect(() => {
 		if (!mounted.current) {
@@ -108,33 +125,18 @@ export default function Game({ game, id }) {
 				setMoves(gameData.moves)
 				setStatus(gameData.status)
 				setMyTurn(isBlack ? gameData.moves.length % 2 === 1 : gameData.moves.length % 2 === 0)
-
-				// const winner = checkIfGameWon(newBoard)
-				// if (winner) {
-				// 	setWinningPegs(winner.winningPegs)
-				// 	setWinner(winner.winner)
-				// }
 			})
 
-			document.addEventListener('keydown', function (event) {
-				switch (event.key) {
-					case 'ArrowLeft':
-						previousMove()
-						break
-					case 'ArrowRight':
-						nextMove()
-						break
-					case 'ArrowUp':
-						firstMove()
-						break
-					case 'ArrowDown':
-						lastMove()
-						break
-				}
-			})
 			mounted.current = true
 		}
-	}, [mounted, id, isBlack, currentMoveIndex, moves])
+	}, [mounted])
+
+	useEffect(() => {
+		document.addEventListener('keydown', handleKeyStroke)
+		return () => {
+			document.removeEventListener('keydown', handleKeyStroke)
+		}
+	}, [handleKeyStroke])
 
 	const handlePegClick = (i) => {
 		const newBoard = [...board]
@@ -157,8 +159,6 @@ export default function Game({ game, id }) {
 		}
 
 		playMove(id, pegToNotation(i), newBoard, winner?.winner, winner?.winningPegs)
-
-		moveContainerRef.current.scrollTop = moveContainerRef.current.scrollHeight
 	}
 
 	const handleRestartClick = () => {
@@ -192,7 +192,7 @@ export default function Game({ game, id }) {
 					</button>
 				)} */}
 			</div>
-			<div className="bg-slate-800 w-64 h-48 ml-8 flex flex-col">
+			<div className="bg-slate-800 w-64 h-48 ml-8 flex flex-col rounded overflow-hidden">
 				<div
 					className={`text-xl w-full text-center h-8 flex align-items-center justify-center ${
 						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
@@ -204,8 +204,13 @@ export default function Game({ game, id }) {
 							: winner === 'B'
 							? 'Black Wins'
 							: 'Draw'
-						: status !== COMPLETED &&
-						  (status === AVAILABLE ? 'Waiting for Opponent' : myTurn ? 'Your Turn' : "Opponent's Turn")}
+						: status !== COMPLETED
+						? status === AVAILABLE
+							? 'Waiting for Opponent'
+							: myTurn
+							? 'Your Turn'
+							: "Opponent's Turn"
+						: 'Game Completed'}
 				</div>
 				<div
 					ref={moveContainerRef}
