@@ -1,11 +1,9 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useEffect, useRef, useMemo, Fragment, useCallback } from 'react'
 import { pegToNotation } from '@/lib/util'
 import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
-import { listenToGame, listenGameStarted } from '@/app/api/get-data'
-import { auth } from '../../firebase'
+import { listenToGame, listenGameStarted } from '@/firestore/get-data'
 
 import { checkIfGameWon } from '@/lib/game'
 
@@ -55,7 +53,8 @@ export default function Game({ game, id }) {
 	const [winner, setWinner] = useState(game.winner)
 	const [winningPegs, setWinningPegs] = useState(game.winningPegs)
 	const mounted = useRef(false)
-	const isBlack = localStorage.getItem('user') === game.blackPlayer.uid
+	const userId = localStorage.getItem('user')
+	const isBlack = userId === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 
 	const currentMoveIndex = moves.findIndex((x) => x.position === JSON.stringify(board))
@@ -126,6 +125,32 @@ export default function Game({ game, id }) {
 				setMyTurn(isBlack ? gameData.moves.length % 2 === 1 : gameData.moves.length % 2 === 0)
 			})
 
+			fetch('/api', {
+				method: 'POST',
+				body: JSON.stringify({
+					message: {
+						type: 'connected-game',
+						gameId: id,
+					},
+					sender: userId,
+				}),
+			})
+
+			window.addEventListener('beforeunload', () => {
+				console.log('yooo')
+				fetch('/api', {
+					method: 'POST',
+					body: JSON.stringify({
+						message: {
+							type: 'disconnected-game',
+							gameId: id,
+						},
+						sender: userId,
+					}),
+					keepalive: true, // this is important!
+				})
+			})
+
 			mounted.current = true
 		}
 	}, [mounted])
@@ -167,7 +192,7 @@ export default function Game({ game, id }) {
 					peg: i,
 					gameId: id,
 				},
-				sender: auth.currentUser.uid,
+				sender: userId,
 			}),
 		})
 	}
@@ -179,7 +204,7 @@ export default function Game({ game, id }) {
 
 		fetch('/api', {
 			method: 'POST',
-			body: JSON.stringify({ message: { type: 'request-rematch', gameId: id }, sender: auth.currentUser.uid }),
+			body: JSON.stringify({ message: { type: 'request-rematch', gameId: id }, sender: userId }),
 		})
 	}
 

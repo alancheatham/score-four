@@ -1,4 +1,4 @@
-import { db, auth } from '../../../firebase'
+import { db, auth } from '../../firebase'
 import { collection, getDoc, doc, onSnapshot, query, where } from 'firebase/firestore'
 
 // import { ref, get, child, onValue } from 'firebase/database'

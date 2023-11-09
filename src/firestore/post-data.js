@@ -1,4 +1,4 @@
-import { db, auth } from '../../../firebase'
+import { db, auth } from '../../firebase'
 import { collection, doc, arrayUnion, updateDoc, addDoc, setDoc } from 'firebase/firestore'
 import { generateGameId } from '@/lib/util'
 import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
@@ -55,10 +55,12 @@ export async function createGame(playerOne, playerTwo, blackFirst = true) {
 		blackPlayer: {
 			uid: oneIsBlack ? playerOne : playerTwo,
 			rematchRequested: false,
+			connected: false,
 		},
 		whitePlayer: {
 			uid: oneIsBlack ? playerTwo : playerOne,
 			rematchRequested: false,
+			connected: false,
 		},
 		winner: null,
 		winningPegs: [],
@@ -73,4 +75,10 @@ export async function createGame(playerOne, playerTwo, blackFirst = true) {
 	})
 
 	return id
+}
+
+export async function setUserConnectedGameStatus(gameId, blackPlayer, connected) {
+	updateDoc(doc(db, 'games', gameId), {
+		...(blackPlayer ? { 'blackPlayer.connected': connected } : { 'whitePlayer.connected': connected }),
+	})
 }

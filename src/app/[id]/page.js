@@ -1,5 +1,5 @@
 import Game from '@/components/Game'
-import { getGame, listenToGame } from '@/app/api/get-data'
+import { getGame, listenToGame } from '@/firestore/get-data'
 import { auth } from '../../../firebase'
 
 export default async function Page({ params }) {

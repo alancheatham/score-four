@@ -2,8 +2,14 @@ import { NextResponse } from 'next/server'
 import { movePlayed } from '@/lib/game'
 import { generateGameId, pegToNotation } from '@/lib/util'
 import { checkIfGameWon } from '@/lib/game'
-import { createGame, playMove, setCurrentGame, requestRematch } from './post-data'
-import { getGame } from './get-data'
+import {
+	createGame,
+	playMove,
+	setCurrentGame,
+	requestRematch,
+	setUserConnectedGameStatus,
+} from '../../firestore/post-data'
+import { getGame } from '../../firestore/get-data'
 // import Pusher from 'pusher'
 
 // export const pusher = new Pusher({
@@ -91,11 +97,24 @@ const handleFindGame = async (message) => {
 const handleRematchRequested = async (message, sender) => {
 	const game = await getGame(message.gameId)
 	const isBlack = game.blackPlayer.uid === sender
-	console.log(message.gameId, game.blackPlayer.uid, sender)
+
 	await requestRematch(message.gameId, isBlack)
 	if ((isBlack && game.whitePlayer.rematchRequested) || (!isBlack && game.blackPlayer.rematchRequested)) {
 		await createGame(game.whitePlayer.uid, game.blackPlayer.uid, true)
 	}
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
+}
+
+const handleUserConnectedGameStatus = async (message, sender, { connected = false } = {}) => {
+	const game = await getGame(message.gameId)
+	const isBlack = game.blackPlayer.uid === sender
+
+	await setUserConnectedGameStatus(message.gameId, isBlack, connected)
 	return NextResponse.json(
 		{},
 		{
@@ -116,6 +135,10 @@ export async function POST(req, res) {
 			return await handleFindGame(message, sender)
 		case 'request-rematch':
 			return await handleRematchRequested(message, sender)
+		case 'disconnected-game':
+			return await handleUserConnectedGameStatus(message, sender, { connected: false })
+		case 'connected-game':
+			return await handleUserConnectedGameStatus(message, sender, { connected: true })
 		default:
 			return new Response('Invalid request', {
 				status: 400,

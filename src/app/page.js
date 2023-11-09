@@ -3,8 +3,8 @@
 import { auth } from '../../firebase'
 import { useState, useRef, useEffect } from 'react'
 
-import { createGame, joinGame } from '@/app/api/post-data'
-import { listenAvailableGames, listenGameStarted } from '@/app/api/get-data'
+import { createGame, joinGame } from '@/firestore/post-data'
+import { listenAvailableGames, listenGameStarted } from '@/firestore/get-data'
 
 export default function HomePage() {
 	const mounted = useRef(false)
