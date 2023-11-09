@@ -96,3 +96,1230 @@ Import trace for requested module:
     at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
 [error] 
 [error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T02:23:41.092Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T02:23:41.093Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T02:23:41.094Z] CLI Version:   12.6.2
+[debug] [2023-10-31T02:23:41.094Z] Platform:      darwin
+[debug] [2023-10-31T02:23:41.094Z] Node Version:  v16.16.0
+[debug] [2023-10-31T02:23:41.097Z] Time:          Mon Oct 30 2023 23:23:41 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T02:23:41.097Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T02:23:41.103Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2023-10-31T02:23:41.210Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T02:23:41.211Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T02:23:41.211Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T02:23:41.213Z] > refreshing access token with scopes: []
+[debug] [2023-10-31T02:23:41.213Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-10-31T02:23:41.214Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-10-31T02:23:41.374Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-10-31T02:23:41.377Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-10-31T02:23:41.394Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T02:23:41.395Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T02:23:41.396Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:23:41.766Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2023-10-31T02:23:41.767Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2023-10-31T02:23:42.320Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T02:23:42.321Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:23:42.322Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T02:23:42.705Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T02:23:42.706Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T02:23:45.509Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T02:23:45.512Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T02:23:46.947Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T02:23:46.947Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T02:23:46.948Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T02:23:47.845Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T02:23:47.845Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info] 
+
+[info] warn - The `@variants` directive has been deprecated in Tailwind CSS v3.0.
+warn - Use `@layer utilities` or `@layer components` instead.
+warn - https://tailwindcss.com/docs/upgrade-guide#replace-variants-with-layer
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:5511) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T02:25:09.870Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T02:38:15.385Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T02:38:15.386Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T02:38:15.387Z] CLI Version:   12.6.2
+[debug] [2023-10-31T02:38:15.387Z] Platform:      darwin
+[debug] [2023-10-31T02:38:15.387Z] Node Version:  v16.16.0
+[debug] [2023-10-31T02:38:15.388Z] Time:          Mon Oct 30 2023 23:38:15 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T02:38:15.389Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T02:38:15.487Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T02:38:15.488Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T02:38:15.488Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T02:38:15.490Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T02:38:15.491Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T02:38:15.492Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:38:16.673Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T02:38:16.677Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:38:16.680Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T02:38:17.046Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T02:38:17.047Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T02:38:19.775Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T02:38:19.779Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T02:38:20.957Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T02:38:20.959Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T02:38:20.959Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T02:38:21.978Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T02:38:21.980Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:7231) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T02:39:34.335Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T02:42:11.807Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T02:42:11.809Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T02:42:11.809Z] CLI Version:   12.6.2
+[debug] [2023-10-31T02:42:11.809Z] Platform:      darwin
+[debug] [2023-10-31T02:42:11.810Z] Node Version:  v16.16.0
+[debug] [2023-10-31T02:42:11.811Z] Time:          Mon Oct 30 2023 23:42:11 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T02:42:11.811Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T02:42:11.916Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T02:42:11.918Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T02:42:11.919Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T02:42:11.921Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T02:42:11.922Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T02:42:11.923Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:42:12.834Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T02:42:12.837Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:42:12.838Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T02:42:13.250Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T02:42:13.252Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T02:42:16.042Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T02:42:16.046Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T02:42:17.140Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T02:42:17.142Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T02:42:17.144Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T02:42:17.912Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T02:42:17.914Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:7467) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T02:42:51.818Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T02:43:33.287Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T02:43:33.290Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T02:43:33.290Z] CLI Version:   12.6.2
+[debug] [2023-10-31T02:43:33.291Z] Platform:      darwin
+[debug] [2023-10-31T02:43:33.291Z] Node Version:  v16.16.0
+[debug] [2023-10-31T02:43:33.293Z] Time:          Mon Oct 30 2023 23:43:33 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T02:43:33.293Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T02:43:33.400Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T02:43:33.401Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T02:43:33.401Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T02:43:33.403Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T02:43:33.404Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T02:43:33.405Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:43:34.332Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T02:43:34.336Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:43:34.338Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T02:43:34.733Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T02:43:34.735Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T02:43:37.619Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T02:43:37.622Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T02:43:38.732Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T02:43:38.733Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T02:43:38.734Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T02:43:39.487Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T02:43:39.489Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+[info] 
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:8013) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T02:44:59.140Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T02:46:44.754Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T02:46:44.756Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T02:46:44.756Z] CLI Version:   12.6.2
+[debug] [2023-10-31T02:46:44.756Z] Platform:      darwin
+[debug] [2023-10-31T02:46:44.757Z] Node Version:  v16.16.0
+[debug] [2023-10-31T02:46:44.758Z] Time:          Mon Oct 30 2023 23:46:44 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T02:46:44.758Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T02:46:44.861Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T02:46:44.862Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T02:46:44.863Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T02:46:44.865Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T02:46:44.866Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T02:46:44.866Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:46:45.815Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T02:46:45.819Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T02:46:45.822Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T02:46:46.209Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T02:46:46.211Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T02:46:48.967Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T02:46:48.979Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T02:46:50.154Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T02:46:50.155Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T02:46:50.156Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T02:46:51.064Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T02:46:51.069Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:8263) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T02:47:37.565Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T03:11:57.994Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T03:11:57.996Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T03:11:57.996Z] CLI Version:   12.6.2
+[debug] [2023-10-31T03:11:57.996Z] Platform:      darwin
+[debug] [2023-10-31T03:11:57.997Z] Node Version:  v16.16.0
+[debug] [2023-10-31T03:11:57.998Z] Time:          Tue Oct 31 2023 00:11:57 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T03:11:57.998Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T03:11:58.109Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T03:11:58.111Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T03:11:58.111Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T03:11:58.114Z] > refreshing access token with scopes: []
+[debug] [2023-10-31T03:11:58.116Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-10-31T03:11:58.116Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-10-31T03:11:58.290Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-10-31T03:11:58.292Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-10-31T03:11:58.314Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T03:11:58.315Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T03:11:58.315Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:11:59.245Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T03:11:59.248Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:11:59.250Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T03:11:59.626Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T03:11:59.629Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T03:12:02.313Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T03:12:02.318Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T03:12:03.457Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T03:12:03.458Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T03:12:03.459Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T03:12:04.348Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T03:12:04.349Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:19277) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T03:13:15.540Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T03:14:26.056Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T03:14:26.058Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T03:14:26.059Z] CLI Version:   12.6.2
+[debug] [2023-10-31T03:14:26.059Z] Platform:      darwin
+[debug] [2023-10-31T03:14:26.059Z] Node Version:  v16.16.0
+[debug] [2023-10-31T03:14:26.061Z] Time:          Tue Oct 31 2023 00:14:26 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T03:14:26.061Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T03:14:26.165Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T03:14:26.166Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T03:14:26.167Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T03:14:26.169Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T03:14:26.170Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T03:14:26.171Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:14:27.106Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T03:14:27.110Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:14:27.112Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T03:14:27.476Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T03:14:27.477Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T03:14:30.187Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T03:14:30.191Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T03:14:31.340Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T03:14:31.341Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T03:14:31.342Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T03:14:32.064Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T03:14:32.068Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:19904) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T03:15:05.442Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T03:16:32.475Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T03:16:32.477Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T03:16:32.477Z] CLI Version:   12.6.2
+[debug] [2023-10-31T03:16:32.478Z] Platform:      darwin
+[debug] [2023-10-31T03:16:32.478Z] Node Version:  v16.16.0
+[debug] [2023-10-31T03:16:32.479Z] Time:          Tue Oct 31 2023 00:16:32 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T03:16:32.480Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T03:16:32.579Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T03:16:32.580Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T03:16:32.580Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T03:16:32.582Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T03:16:32.583Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T03:16:32.584Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:16:33.486Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T03:16:33.489Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:16:33.490Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T03:16:33.839Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T03:16:33.840Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T03:16:36.595Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T03:16:36.599Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T03:16:37.776Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T03:16:37.778Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T03:16:37.780Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T03:16:38.523Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T03:16:38.525Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:20139) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T03:17:11.346Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2023-10-31T03:22:24.872Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T03:22:24.874Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T03:22:24.874Z] CLI Version:   12.6.2
+[debug] [2023-10-31T03:22:24.874Z] Platform:      darwin
+[debug] [2023-10-31T03:22:24.875Z] Node Version:  v16.16.0
+[debug] [2023-10-31T03:22:24.876Z] Time:          Tue Oct 31 2023 00:22:24 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T03:22:24.876Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T03:22:24.974Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T03:22:24.977Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T03:22:24.978Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T03:22:24.980Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T03:22:24.981Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T03:22:24.982Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:22:25.903Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T03:22:25.907Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:22:25.910Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T03:22:26.279Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T03:22:26.280Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T03:22:28.905Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T03:22:28.909Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T03:22:30.080Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T03:22:30.082Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T03:22:30.083Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T03:22:31.009Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T03:22:31.011Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info] (node:20408) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (3/7) 
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T03:26:10.754Z] ----------------------------------------------------------------------
+[debug] [2023-10-31T03:26:10.756Z] Command:       /usr/local/bin/firebase /Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/bin/firebase deploy --only hosting
+[debug] [2023-10-31T03:26:10.756Z] CLI Version:   12.6.2
+[debug] [2023-10-31T03:26:10.756Z] Platform:      darwin
+[debug] [2023-10-31T03:26:10.757Z] Node Version:  v16.16.0
+[debug] [2023-10-31T03:26:10.759Z] Time:          Tue Oct 31 2023 00:26:10 GMT-0300 (Argentina Standard Time)
+[debug] [2023-10-31T03:26:10.759Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-10-31T03:26:10.864Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-10-31T03:26:10.868Z] > authorizing via signed-in user (alan.cheatham@gmail.com)
+[debug] [2023-10-31T03:26:10.869Z] [iam] checking project score-four for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-10-31T03:26:10.872Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions [none]
+[debug] [2023-10-31T03:26:10.872Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions x-goog-quota-user=projects/score-four
+[debug] [2023-10-31T03:26:10.873Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:26:11.769Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions 200
+[debug] [2023-10-31T03:26:11.772Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/score-four:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-10-31T03:26:11.775Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/score-four [none]
+[debug] [2023-10-31T03:26:12.148Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/score-four 200
+[debug] [2023-10-31T03:26:12.149Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/score-four {"projectId":"score-four","projectNumber":"485195295425","displayName":"Score Four","name":"projects/score-four","resources":{"hostingSite":"score-four","realtimeDatabaseInstance":"score-four-default-rtdb"},"state":"ACTIVE","etag":"1_04f48d52-15c6-4ca3-bc61-8bab6cda2ec7"}
+[debug] [2023-10-31T03:26:14.794Z] defaultcredentials: writing to file /Users/alan/.config/firebase/alan_cheatham_gmail.com_application_default_credentials.json
+[debug] [2023-10-31T03:26:14.797Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites pageToken=&pageSize=10
+[debug] [2023-10-31T03:26:15.902Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites 200
+[debug] [2023-10-31T03:26:15.904Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/score-four/sites {"sites":[{"name":"projects/score-four/sites/score-four","defaultUrl":"https://score-four.web.app","appId":"1:485195295425:web:07b44dbcecb811a6014240","type":"DEFAULT_SITE"}]}
+[debug] [2023-10-31T03:26:15.905Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config [none]
+[debug] [2023-10-31T03:26:16.827Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config 200
+[debug] [2023-10-31T03:26:16.828Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:485195295425:web:07b44dbcecb811a6014240/config {"projectId":"score-four","appId":"1:485195295425:web:07b44dbcecb811a6014240","databaseURL":"https://score-four-default-rtdb.firebaseio.com","storageBucket":"score-four.appspot.com","apiKey":"AIzaSyD9eYEtwrIUPDp4b_4x_e1zset6SmIpt_I","authDomain":"score-four.firebaseapp.com","messagingSenderId":"485195295425","measurementId":"G-RNN3F03DQJ"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[info]    Creating an optimized production build ...
+
+[info]  ⚠ Compiled with warnings
+
+
+[info] ./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./firebase.js
+./src/app/[id]/page.js
+
+./node_modules/node-fetch/lib/index.js
+Module not found: Can't resolve 'encoding' in '/Users/alan/programming/score-four/node_modules/node-fetch/lib'
+
+Import trace for requested module:
+./node_modules/node-fetch/lib/index.js
+./node_modules/@firebase/auth/dist/node-esm/index.js
+./node_modules/firebase/auth/dist/index.mjs
+./src/app/layout.js
+
+
+[info]    Linting and checking validity of types ...
+
+[info] 
+./src/components/Game.js
+89:3  Warning: React Hook useCallback has unnecessary dependencies: 'currentMoveIndex', 'moveContainerRef', and 'moves'. Either exclude them or remove the dependency array.  react-hooks/exhaustive-deps
+132:5  Warning: React Hook useEffect has missing dependencies: 'id' and 'isBlack'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+
+[info]    Collecting page data ...
+
+[info]    Generating static pages (0/7) ...
+
+[info]    Generating static pages (1/7) 
+
+[info]    Generating static pages (3/7) 
+
+[info] (node:20643) ExperimentalWarning: buffer.Blob is an experimental feature. This feature could change at any time
+(Use `firebase --trace-warnings ...` to show where the warning was created)
+
+[info]    Generating static pages (5/7) 
+
+[info]  ✓ Generating static pages (7/7) 
+
+[info]    Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)                              Size     First Load JS
+┌ ○ /                                    1.56 kB         185 kB
+├ ○ /_not-found                          878 B          80.2 kB
+├ λ /[id]                                8.22 kB         192 kB
+├ λ /api                                 0 B                0 B
+└ ○ /signin                              597 B           184 kB
++ First Load JS shared by all            79.3 kB
+  ├ chunks/864-e4493084baee24fc.js       26.6 kB
+  ├ chunks/fd9d1056-b1160267e5070cea.js  50.8 kB
+  ├ chunks/main-app-8397790fe769f145.js  223 B
+  └ chunks/webpack-bf691554e5747182.js   1.73 kB
+
+
+[info] 
+
+[info] λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+
+[info] 
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • non-static component /_not-found
+[info]  • non-static component /[id]/page
+[info]  • non-static component /api/route
+[info] 
+[debug] [2023-10-31T03:26:49.264Z] Error: Command failed: npm i --omit dev --no-audit
+    at checkExecSyncError (node:child_process:828:11)
+    at Object.execSync (node:child_process:899:15)
+    at execSync (pkg/prelude/bootstrap.js:2111:30)
+    at prepareFrameworks (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/frameworks/index.js:367:42)
+    at async deploy (/Users/alan/.cache/firebase/tools/lib/node_modules/firebase-tools/lib/deploy/index.js:55:13)
+[error] 
+[error] Error: An unexpected error has occurred.

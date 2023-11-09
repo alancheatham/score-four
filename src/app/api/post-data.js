@@ -19,7 +19,6 @@ export async function joinGame(id) {
 }
 
 export async function playMove(id, lastMove, board, winner = '', winningPegs = []) {
-	console.log(winner, winningPegs)
 	updateDoc(doc(db, 'games', id), {
 		moves: arrayUnion({
 			lastMove: lastMove,
@@ -29,7 +28,21 @@ export async function playMove(id, lastMove, board, winner = '', winningPegs = [
 	})
 }
 
-export async function createGame() {
+export async function setCurrentGame(id, gameId) {
+	updateDoc(doc(db, 'users', id), {
+		currentGame: gameId,
+	})
+}
+
+export async function requestRematch(gameId, blackPlayer) {
+	updateDoc(doc(db, 'games', gameId), {
+		...(blackPlayer ? { 'blackPlayer.rematchRequested': true } : { 'whitePlayer.rematchRequested': true }),
+	})
+}
+
+export async function createGame(playerOne, playerTwo, blackFirst = true) {
+	const oneIsBlack = blackFirst || Math.random() < 0.5
+
 	const id = generateGameId()
 	const gameDoc = await setDoc(doc(db, 'games', id), {
 		moves: [
@@ -38,22 +51,26 @@ export async function createGame() {
 				position: JSON.stringify(Array(64).fill(0)),
 			},
 		],
-		status: AVAILABLE,
+		status: IN_PROGRESS,
 		blackPlayer: {
-			uid: auth.currentUser.uid,
-			displayName: auth.currentUser.displayName,
+			uid: oneIsBlack ? playerOne : playerTwo,
+			rematchRequested: false,
 		},
-		whitePlayer: null,
+		whitePlayer: {
+			uid: oneIsBlack ? playerTwo : playerOne,
+			rematchRequested: false,
+		},
 		winner: null,
 		winningPegs: [],
 	})
 
-	console.log(gameDoc)
+	await updateDoc(doc(db, 'users', playerOne), {
+		currentGame: id,
+	})
+
+	await updateDoc(doc(db, 'users', playerTwo), {
+		currentGame: id,
+	})
+
 	return id
-	// updateDoc(gameDoc, {
-	// 	moves: arrayUnion({
-	// 		lastMove: lastMove,
-	// 		position: JSON.stringify(board),
-	// 	}),
-	// })
 }

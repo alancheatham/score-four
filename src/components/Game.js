@@ -2,10 +2,9 @@
 
 import Image from 'next/image'
 import { useState, useEffect, useRef, useMemo, Fragment, useCallback } from 'react'
-import { playMove } from '@/app/api/post-data'
 import { pegToNotation } from '@/lib/util'
 import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
-import { listenToGame } from '@/app/api/get-data'
+import { listenToGame, listenGameStarted } from '@/app/api/get-data'
 import { auth } from '../../firebase'
 
 import { checkIfGameWon } from '@/lib/game'
@@ -158,17 +157,29 @@ export default function Game({ game, id }) {
 			setWinner(winner.winner)
 		}
 
-		playMove(id, pegToNotation(i), newBoard, winner?.winner, winner?.winningPegs)
+		// playMove(id, pegToNotation(i), newBoard, winner?.winner, winner?.winningPegs)
+		setMoves([...moves, { lastMove: pegToNotation(i), position: JSON.stringify(newBoard) }])
+		fetch('/api', {
+			method: 'POST',
+			body: JSON.stringify({
+				message: {
+					type: 'move',
+					peg: i,
+					gameId: id,
+				},
+				sender: auth.currentUser.uid,
+			}),
+		})
 	}
 
-	const handleRestartClick = () => {
-		setBoard(Array(64).fill(0))
-		setWinningPegs([])
-		setWinner('')
+	const handleRematchClick = () => {
+		listenGameStarted((gameId) => {
+			location.href = `/${gameId}`
+		})
 
-		const res = fetch('/api', {
+		fetch('/api', {
 			method: 'POST',
-			body: JSON.stringify({ message: { type: 'new-game' }, sender: 'player' }),
+			body: JSON.stringify({ message: { type: 'request-rematch', gameId: id }, sender: auth.currentUser.uid }),
 		})
 	}
 
@@ -182,17 +193,8 @@ export default function Game({ game, id }) {
 				<div>
 					<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
 				</div>
-				{/* {winner && (
-					<button
-						className="text-xl absolute top-1/2 p-1 border-2 rounded hover:opacity-50 border-white text-white"
-						style={{ right: '-130px', transform: 'translateY(-50%)' }}
-						onClick={handleRestartClick}
-					>
-						Rematch
-					</button>
-				)} */}
 			</div>
-			<div className="bg-slate-800 w-64 h-48 ml-8 flex flex-col rounded overflow-hidden">
+			<div className="bg-slate-800 w-64 h-48 ml-8 flex flex-col justify-between rounded overflow-hidden">
 				<div
 					className={`text-xl w-full text-center h-8 flex align-items-center justify-center ${
 						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
@@ -212,21 +214,30 @@ export default function Game({ game, id }) {
 							: "Opponent's Turn"
 						: 'Game Completed'}
 				</div>
-				<div
-					ref={moveContainerRef}
-					className="grid grid-cols-[30px_1fr_1fr] grow-1 bg-slate-800 m-h-0 overflow-y-auto overflow-x-hidden no-scrollbar"
-				>
-					{moves.slice(1).map((move, i) => (
-						<Fragment key={`move-${i}`}>
-							{i % 2 === 0 && <div className="text-center bg-slate-500">{i / 2 + 1}</div>}
-							<div
-								className={`cursor-pointer pl-4 ${currentMoveIndex === i + 1 ? 'bg-slate-600' : 'hover:bg-slate-700'}`}
-								onClick={() => moveClick(move)}
-							>
-								{move.lastMove}
-							</div>
-						</Fragment>
-					))}
+				<div className="d-flex flex-col justify-between">
+					<div
+						ref={moveContainerRef}
+						className="grid grid-cols-[30px_1fr_1fr] grow-1 bg-slate-800 m-h-0 overflow-y-auto overflow-x-hidden no-scrollbar"
+					>
+						{moves.slice(1).map((move, i) => (
+							<Fragment key={`move-${i}`}>
+								{i % 2 === 0 && <div className="text-center bg-slate-500">{i / 2 + 1}</div>}
+								<div
+									className={`cursor-pointer pl-4 ${
+										currentMoveIndex === i + 1 ? 'bg-slate-600' : 'hover:bg-slate-700'
+									}`}
+									onClick={() => moveClick(move)}
+								>
+									{move.lastMove}
+								</div>
+							</Fragment>
+						))}
+					</div>
+					{winner && (
+						<button className="w-full h-10 text-xl" onClick={handleRematchClick}>
+							Rematch
+						</button>
+					)}
 				</div>
 			</div>
 		</main>

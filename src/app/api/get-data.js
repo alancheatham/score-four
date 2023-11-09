@@ -1,5 +1,6 @@
-import { db } from '../../../firebase'
+import { db, auth } from '../../../firebase'
 import { collection, getDoc, doc, onSnapshot, query, where } from 'firebase/firestore'
+
 // import { ref, get, child, onValue } from 'firebase/database'
 import { AVAILABLE } from '@/lib/constants'
 
@@ -11,6 +12,16 @@ export function listenAvailableGames(cb) {
 			games.push({ id: doc.id, ...doc.data() })
 		})
 		cb(games)
+	})
+}
+
+export function listenGameStarted(cb) {
+	const userId = auth.currentUser.uid
+	const unsubscribe = onSnapshot(doc(db, 'users', userId), (snapshot) => {
+		const currentGame = snapshot.data()?.currentGame
+		if (currentGame) {
+			cb(currentGame)
+		}
 	})
 }
 

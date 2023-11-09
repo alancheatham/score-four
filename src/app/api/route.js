@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { movePlayed } from '@/lib/game'
-import { generateGameId } from '@/lib/util'
+import { generateGameId, pegToNotation } from '@/lib/util'
+import { checkIfGameWon } from '@/lib/game'
+import { createGame, playMove, setCurrentGame, requestRematch } from './post-data'
+import { getGame } from './get-data'
 // import Pusher from 'pusher'
 
 // export const pusher = new Pusher({
@@ -11,23 +14,45 @@ import { generateGameId } from '@/lib/util'
 // 	useTLS: true,
 // })
 
-let board = Array(64).fill(0)
-const games = {}
+const pool = []
+
+const createGames = () => {
+	while (pool.length > 1) {
+		const player1 = pool.pop()
+		const player2 = pool.pop()
+		createGame(player1, player2)
+	}
+}
+
+let interval
+if (!interval) {
+	interval = setInterval(createGames, 1000)
+}
 
 const handleMove = async (message, sender) => {
-	board[message.slot] = -1
-	const result = movePlayed(board, true)
-	board = result.board
-	const response = await pusher.trigger('score-four', 'move', {
-		message: {
-			...result,
-		},
-		sender: 'computer',
-	})
+	const pegIndex = message.peg
+	const game = await getGame(message.gameId)
+	const board = JSON.parse(game.moves.slice(-1)[0].position)
+	const peg = board.slice(pegIndex * 4, pegIndex * 4 + 4)
+	const emptySlot = peg.findIndex((x) => x === 0)
+	const isBlack = game.blackPlayer.uid === sender
 
-	return new Response('success', {
-		status: 200,
-	})
+	board[pegIndex * 4 + emptySlot] = isBlack ? -1 : 1
+	const winner = checkIfGameWon(board)
+
+	await playMove(message.gameId, pegToNotation(pegIndex), board, winner?.winner, winner?.winningPegs)
+
+	if (winner) {
+		await setCurrentGame(game.blackPlayer.uid, '')
+		await setCurrentGame(game.whitePlayer.uid, '')
+	}
+
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
 }
 
 const handleNewGame = async () => {
@@ -49,6 +74,36 @@ const handleNewGame = async () => {
 	)
 }
 
+const handleFindGame = async (message) => {
+	pool.push(message.uid)
+	return new Promise((resolve, reject) => {
+		resolve(
+			NextResponse.json(
+				{},
+				{
+					status: 200,
+				}
+			)
+		)
+	})
+}
+
+const handleRematchRequested = async (message, sender) => {
+	const game = await getGame(message.gameId)
+	const isBlack = game.blackPlayer.uid === sender
+	console.log(message.gameId, game.blackPlayer.uid, sender)
+	await requestRematch(message.gameId, isBlack)
+	if ((isBlack && game.whitePlayer.rematchRequested) || (!isBlack && game.blackPlayer.rematchRequested)) {
+		await createGame(game.whitePlayer.uid, game.blackPlayer.uid, true)
+	}
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
+}
+
 export async function POST(req, res) {
 	const { message, sender } = await req.json()
 
@@ -57,6 +112,10 @@ export async function POST(req, res) {
 			return await handleNewGame(message, sender)
 		case 'move':
 			return await handleMove(message, sender)
+		case 'find-game':
+			return await handleFindGame(message, sender)
+		case 'request-rematch':
+			return await handleRematchRequested(message, sender)
 		default:
 			return new Response('Invalid request', {
 				status: 400,
