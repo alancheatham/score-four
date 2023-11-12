@@ -7,7 +7,10 @@ import {
 	playMove,
 	setCurrentGame,
 	requestRematch,
+	unRequestRematch,
 	setUserConnectedGameStatus,
+	createUserInDb,
+	joinGame,
 } from '../../firestore/post-data'
 import { getGame } from '../../firestore/get-data'
 // import Pusher from 'pusher'
@@ -33,6 +36,29 @@ const createGames = () => {
 let interval
 if (!interval) {
 	interval = setInterval(createGames, 1000)
+}
+
+const createUser = async (message, sender) => {
+	await createUserInDb(sender)
+
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
+}
+
+const handleJoinGame = async (message, sender) => {
+	const game = await getGame(message.gameId)
+
+	await joinGame(message.gameId, sender)
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
 }
 
 const handleMove = async (message, sender) => {
@@ -82,6 +108,7 @@ const handleNewGame = async () => {
 
 const handleFindGame = async (message) => {
 	pool.push(message.uid)
+
 	return new Promise((resolve, reject) => {
 		resolve(
 			NextResponse.json(
@@ -94,6 +121,25 @@ const handleFindGame = async (message) => {
 	})
 }
 
+const handlePlayFriend = async (message) => {
+	await createGame(message.uid)
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
+}
+
+const handlePlayComputer = async (message) => {
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
+}
+
 const handleRematchRequested = async (message, sender) => {
 	const game = await getGame(message.gameId)
 	const isBlack = game.blackPlayer.uid === sender
@@ -102,6 +148,19 @@ const handleRematchRequested = async (message, sender) => {
 	if ((isBlack && game.whitePlayer.rematchRequested) || (!isBlack && game.blackPlayer.rematchRequested)) {
 		await createGame(game.whitePlayer.uid, game.blackPlayer.uid, true)
 	}
+	return NextResponse.json(
+		{},
+		{
+			status: 200,
+		}
+	)
+}
+
+const handleRematchUnRequested = async (message, sender) => {
+	const game = await getGame(message.gameId)
+	const isBlack = game.blackPlayer.uid === sender
+
+	await unRequestRematch(message.gameId, isBlack)
 	return NextResponse.json(
 		{},
 		{
@@ -127,14 +186,24 @@ export async function POST(req, res) {
 	const { message, sender } = await req.json()
 
 	switch (message.type) {
+		case 'create-user':
+			return await createUser(message, sender)
+		case 'join-game':
+			return await handleJoinGame(message, sender)
 		case 'new-game':
 			return await handleNewGame(message, sender)
 		case 'move':
 			return await handleMove(message, sender)
 		case 'find-game':
 			return await handleFindGame(message, sender)
+		case 'play-friend':
+			return await handlePlayFriend(message, sender)
+		case 'play-computer':
+			return await handlePlayComputer(message, sender)
 		case 'request-rematch':
 			return await handleRematchRequested(message, sender)
+		case 'unrequest-rematch':
+			return await handleRematchUnRequested(message, sender)
 		case 'disconnected-game':
 			return await handleUserConnectedGameStatus(message, sender, { connected: false })
 		case 'connected-game':

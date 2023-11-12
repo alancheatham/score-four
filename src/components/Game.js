@@ -56,6 +56,7 @@ export default function Game({ game, id }) {
 	const userId = localStorage.getItem('user')
 	const isBlack = userId === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
+	const [rematchRequested, setRematchRequested] = useState(false)
 
 	const currentMoveIndex = moves.findIndex((x) => x.position === JSON.stringify(board))
 	const isCurrentMove = currentMoveIndex === moves.length - 1
@@ -117,41 +118,52 @@ export default function Game({ game, id }) {
 
 	useEffect(() => {
 		if (!mounted.current) {
-			listenToGame(id, (gameData) => {
-				const newBoard = JSON.parse(gameData.moves.slice(-1)[0].position)
-				setBoard(newBoard)
-				setMoves(gameData.moves)
-				setStatus(gameData.status)
-				setMyTurn(isBlack ? gameData.moves.length % 2 === 1 : gameData.moves.length % 2 === 0)
-			})
+			const fetchData = async () => {
+				if (game.status === AVAILABLE) {
+					if (userId !== game.blackPlayer.uid && userId !== game.whitePlayer.uid) {
+						await fetch('/api', {
+							method: 'POST',
+							body: JSON.stringify({ message: { type: 'join-game', gameId: id }, sender: userId }),
+						})
+					}
+				}
 
-			fetch('/api', {
-				method: 'POST',
-				body: JSON.stringify({
-					message: {
-						type: 'connected-game',
-						gameId: id,
-					},
-					sender: userId,
-				}),
-			})
+				listenToGame(id, (gameData) => {
+					const newBoard = JSON.parse(gameData.moves.slice(-1)[0].position)
+					setBoard(newBoard)
+					setMoves(gameData.moves)
+					setStatus(gameData.status)
+					setMyTurn(isBlack ? gameData.moves.length % 2 === 1 : gameData.moves.length % 2 === 0)
+				})
 
-			window.addEventListener('beforeunload', () => {
-				console.log('yooo')
 				fetch('/api', {
 					method: 'POST',
 					body: JSON.stringify({
 						message: {
-							type: 'disconnected-game',
+							type: 'connected-game',
 							gameId: id,
 						},
 						sender: userId,
 					}),
-					keepalive: true, // this is important!
 				})
-			})
 
-			mounted.current = true
+				window.addEventListener('beforeunload', () => {
+					fetch('/api', {
+						method: 'POST',
+						body: JSON.stringify({
+							message: {
+								type: 'disconnected-game',
+								gameId: id,
+							},
+							sender: userId,
+						}),
+						keepalive: true, // this is important!
+					})
+				})
+
+				mounted.current = true
+			}
+			fetchData()
 		}
 	}, [mounted])
 
@@ -198,14 +210,22 @@ export default function Game({ game, id }) {
 	}
 
 	const handleRematchClick = () => {
-		listenGameStarted((gameId) => {
-			location.href = `/${gameId}`
-		})
+		if (!rematchRequested) {
+			listenGameStarted((gameId) => {
+				location.href = `/${gameId}`
+			})
 
-		fetch('/api', {
-			method: 'POST',
-			body: JSON.stringify({ message: { type: 'request-rematch', gameId: id }, sender: userId }),
-		})
+			fetch('/api', {
+				method: 'POST',
+				body: JSON.stringify({ message: { type: 'request-rematch', gameId: id }, sender: userId }),
+			})
+		} else {
+			fetch('/api', {
+				method: 'POST',
+				body: JSON.stringify({ message: { type: 'unrequest-rematch', gameId: id }, sender: userId }),
+			})
+		}
+		setRematchRequested(!rematchRequested)
 	}
 
 	return (
@@ -219,9 +239,9 @@ export default function Game({ game, id }) {
 					<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
 				</div>
 			</div>
-			<div className="bg-slate-800 w-64 h-48 ml-8 flex flex-col justify-between rounded overflow-hidden">
+			<div className="bg-slate-800 w-64 h-80 ml-8 flex flex-col rounded overflow-hidden">
 				<div
-					className={`text-xl w-full text-center h-8 flex align-items-center justify-center ${
+					className={`text-2xl w-full text-center h-16 flex items-center justify-center ${
 						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
 					}`}
 				>
@@ -239,10 +259,10 @@ export default function Game({ game, id }) {
 							: "Opponent's Turn"
 						: 'Game Completed'}
 				</div>
-				<div className="d-flex flex-col justify-between">
+				<div className="flex flex-col justify-between min-h-0 grow">
 					<div
 						ref={moveContainerRef}
-						className="grid grid-cols-[30px_1fr_1fr] grow-1 bg-slate-800 m-h-0 overflow-y-auto overflow-x-hidden no-scrollbar"
+						className="grid grid-cols-[30px_1fr_1fr] bg-slate-800 m-h-0 overflow-y-auto overflow-x-hidden no-scrollbar"
 					>
 						{moves.slice(1).map((move, i) => (
 							<Fragment key={`move-${i}`}>
@@ -259,8 +279,15 @@ export default function Game({ game, id }) {
 						))}
 					</div>
 					{winner && (
-						<button className="w-full h-10 text-xl" onClick={handleRematchClick}>
-							Rematch
+						<button
+							className="flex justify-center items-center h-16 w-full text-2xl hover:bg-slate-700"
+							onClick={handleRematchClick}
+						>
+							{rematchRequested ? (
+								<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
+							) : (
+								<div>Rematch</div>
+							)}
 						</button>
 					)}
 				</div>

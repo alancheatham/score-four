@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { Odibee_Sans } from 'next/font/google'
 
 const odibee = Odibee_Sans({ subsets: ['latin'], weight: ['400'] })
+
 export default function RootLayout({ children }) {
 	const path = usePathname()
 	// if (localStorage && !localStorage.getItem('signedIn') && path !== '/signin') {
@@ -24,6 +25,11 @@ export default function RootLayout({ children }) {
 				} else {
 					signInAnonymously(auth).then((res) => {
 						localStorage.setItem('user', res.user.uid)
+
+						fetch('/api', {
+							method: 'POST',
+							body: JSON.stringify({ message: { type: 'create-user' }, sender: res.user.uid }),
+						})
 					})
 					// if (path !== '/signin') {
 					// 	location.href = '/signin'

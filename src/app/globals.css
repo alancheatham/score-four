@@ -19,6 +19,11 @@
 body {
 	color: rgb(var(--foreground-rgb));
 	background: rgb(22, 21, 18);
+	letter-spacing: 0.03em;
+}
+
+button {
+	letter-spacing: 0.03em;
 }
 
 @layer utilities {

@@ -1,6 +1,6 @@
 export const generateGameId = () => {
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-	return Array.from({ length: 15 }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('')
+	return Array.from({ length: 10 }, () => characters.charAt(Math.floor(Math.random() * characters.length))).join('')
 }
 
 export const pegToNotation = (peg) => {

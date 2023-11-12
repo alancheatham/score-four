@@ -1,9 +1,12 @@
 import Game from '@/components/Game'
-import { getGame, listenToGame } from '@/firestore/get-data'
-import { auth } from '../../../firebase'
+import { getGame } from '@/firestore/get-data'
 
 export default async function Page({ params }) {
 	const game = await getGame(params.id)
+
+	if (!game) {
+		return <div>Game not found</div>
+	}
 
 	return (
 		<div>
