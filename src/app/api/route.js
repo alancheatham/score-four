@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
-import { movePlayed } from '@/lib/game'
 import { generateGameId, pegToNotation } from '@/lib/util'
-import { checkIfGameWon } from '@/lib/game'
+import { checkIfGameWon, movePlayed, topMinimax, flatToPegs } from '@/lib/game'
 import {
 	createGame,
 	playMove,
@@ -13,6 +12,7 @@ import {
 	joinGame,
 } from '../../firestore/post-data'
 import { getGame } from '../../firestore/get-data'
+import { COMPUTER } from '@/lib/constants'
 // import Pusher from 'pusher'
 
 // export const pusher = new Pusher({
@@ -61,23 +61,44 @@ const handleJoinGame = async (message, sender) => {
 	)
 }
 
-const handleMove = async (message, sender) => {
-	const pegIndex = message.peg
-	const game = await getGame(message.gameId)
-	const board = JSON.parse(game.moves.slice(-1)[0].position)
-	const peg = board.slice(pegIndex * 4, pegIndex * 4 + 4)
+const calculateMove = async ({ gameId, pegIndex, board, sender, whitePlayerUid, blackPlayerUid }) => {
+	const newBoard = [...board]
+	const peg = newBoard.slice(pegIndex * 4, pegIndex * 4 + 4)
 	const emptySlot = peg.findIndex((x) => x === 0)
-	const isBlack = game.blackPlayer.uid === sender
+	const isBlack = blackPlayerUid === sender
 
-	board[pegIndex * 4 + emptySlot] = isBlack ? -1 : 1
-	const winner = checkIfGameWon(board)
+	newBoard[pegIndex * 4 + emptySlot] = isBlack ? -1 : 1
+	const winner = checkIfGameWon(newBoard)
 
-	await playMove(message.gameId, pegToNotation(pegIndex), board, winner?.winner, winner?.winningPegs)
+	await playMove(gameId, pegToNotation(pegIndex), newBoard, winner?.winner, winner?.winningPegs)
 
 	if (winner) {
-		await setCurrentGame(game.blackPlayer.uid, '')
-		await setCurrentGame(game.whitePlayer.uid, '')
+		if (blackPlayerUid !== COMPUTER) {
+			await setCurrentGame(blackPlayerUid, '')
+		}
+
+		if (whitePlayerUid !== COMPUTER) {
+			await setCurrentGame(whitePlayerUid, '')
+		}
 	}
+
+	if (sender !== COMPUTER && (blackPlayerUid === COMPUTER || whitePlayerUid === COMPUTER)) {
+		// computer's turn
+		await playComputerMove({ gameId, board: newBoard, whitePlayerUid, blackPlayerUid })
+	} else {
+	}
+}
+
+const handleMove = async (message, sender) => {
+	const { moves, blackPlayer, whitePlayer } = await getGame(message.gameId)
+	await calculateMove({
+		gameId: message.gameId,
+		pegIndex: message.peg,
+		board: JSON.parse(moves.slice(-1)[0].position),
+		sender,
+		blackPlayerUid: blackPlayer.uid,
+		whitePlayerUid: whitePlayer.uid,
+	})
 
 	return NextResponse.json(
 		{},
@@ -131,7 +152,22 @@ const handlePlayFriend = async (message) => {
 	)
 }
 
+const playComputerMove = async ({ gameId, board, whitePlayerUid, blackPlayerUid }) => {
+	const move = topMinimax(flatToPegs(board))
+	await calculateMove({ pegIndex: move, gameId, board, sender: COMPUTER, whitePlayerUid, blackPlayerUid })
+}
+
 const handlePlayComputer = async (message) => {
+	const { blackPlayer, whitePlayer, moves, id } = await createGame(message.uid, COMPUTER)
+	if (blackPlayer.uid === COMPUTER) {
+		await playComputerMove({
+			gameId: id,
+			board: JSON.parse(moves.slice(-1)[0].position),
+			blackPlayerUid: blackPlayer.uid,
+			whitePlayerUid: whitePlayer.uid,
+		})
+	}
+
 	return NextResponse.json(
 		{},
 		{
@@ -146,7 +182,15 @@ const handleRematchRequested = async (message, sender) => {
 
 	await requestRematch(message.gameId, isBlack)
 	if ((isBlack && game.whitePlayer.rematchRequested) || (!isBlack && game.blackPlayer.rematchRequested)) {
-		await createGame(game.whitePlayer.uid, game.blackPlayer.uid, true)
+		const { id, blackPlayer, whitePlayer, moves } = await createGame(game.whitePlayer.uid, game.blackPlayer.uid, true)
+		if (blackPlayer.uid === COMPUTER) {
+			await playComputerMove({
+				gameId: id,
+				board: JSON.parse(moves.slice(-1)[0].position),
+				blackPlayerUid: blackPlayer.uid,
+				whitePlayerUid: whitePlayer.uid,
+			})
+		}
 	}
 	return NextResponse.json(
 		{},

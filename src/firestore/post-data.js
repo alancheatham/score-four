@@ -1,8 +1,7 @@
 import { db, auth } from '../../firebase'
 import { collection, doc, arrayUnion, updateDoc, addDoc, setDoc } from 'firebase/firestore'
 import { generateGameId } from '@/lib/util'
-import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
-import { getGame } from './get-data'
+import { AVAILABLE, IN_PROGRESS, COMPLETED, COMPUTER } from '@/lib/constants'
 
 export async function createUserInDb(id) {
 	await setDoc(doc(db, 'users', id), {
@@ -53,39 +52,50 @@ export async function createGame(playerOne, playerTwo = '', blackFirst = true) {
 	const oneIsBlack = blackFirst || Math.random() < 0.5
 
 	const id = generateGameId()
+	const blackUid = oneIsBlack ? playerOne : playerTwo
+	const whiteUid = oneIsBlack ? playerTwo : playerOne
+
+	const moves = [
+		{
+			lastMove: null,
+			position: JSON.stringify(Array(64).fill(0)),
+		},
+	]
+
+	const blackPlayer = {
+		uid: blackUid,
+		rematchRequested: blackUid === COMPUTER,
+		connected: blackUid === COMPUTER,
+	}
+
+	const whitePlayer = {
+		uid: whiteUid,
+		rematchRequested: whiteUid === COMPUTER,
+		connected: whiteUid === COMPUTER,
+	}
+
 	await setDoc(doc(db, 'games', id), {
-		moves: [
-			{
-				move: null,
-				position: JSON.stringify(Array(64).fill(0)),
-			},
-		],
+		moves,
+		blackPlayer,
+		whitePlayer,
 		status: playerTwo ? IN_PROGRESS : AVAILABLE,
-		blackPlayer: {
-			uid: oneIsBlack ? playerOne : playerTwo,
-			rematchRequested: false,
-			connected: false,
-		},
-		whitePlayer: {
-			uid: oneIsBlack ? playerTwo : playerOne,
-			rematchRequested: false,
-			connected: false,
-		},
 		winner: null,
 		winningPegs: [],
 	})
 
-	await updateDoc(doc(db, 'users', playerOne), {
-		currentGame: id,
-	})
+	if (playerOne && playerOne !== COMPUTER) {
+		await updateDoc(doc(db, 'users', playerOne), {
+			currentGame: id,
+		})
+	}
 
-	if (playerTwo) {
+	if (playerTwo && playerTwo !== COMPUTER) {
 		await updateDoc(doc(db, 'users', playerTwo), {
 			currentGame: id,
 		})
 	}
 
-	return id
+	return { id, whitePlayer, blackPlayer, moves }
 }
 
 export async function setUserConnectedGameStatus(gameId, blackPlayer, connected) {

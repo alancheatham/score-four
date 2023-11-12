@@ -8,6 +8,10 @@ import { listenGameStarted } from '@/firestore/get-data'
 export default function HomePage() {
 	const mounted = useRef(false)
 	const [findingGame, setFindingGame] = useState(false)
+	const [playFriend, setPlayFriend] = useState(false)
+	const [playComputer, setPlayComputer] = useState(false)
+
+	const user = localStorage.getItem('user')
 
 	// useEffect(() => {
 	// 	if (!mounted.current) {
@@ -22,7 +26,7 @@ export default function HomePage() {
 		setFindingGame(true)
 		fetch('/api', {
 			method: 'POST',
-			body: JSON.stringify({ message: { type: 'find-game', uid: auth.currentUser.uid } }),
+			body: JSON.stringify({ message: { type: 'find-game', uid: user } }),
 		})
 
 		listenGameStarted((id) => {
@@ -31,10 +35,10 @@ export default function HomePage() {
 	}
 
 	const handlePlayFriend = async () => {
-		setFindingGame(true)
+		setPlayFriend(true)
 		fetch('/api', {
 			method: 'POST',
-			body: JSON.stringify({ message: { type: 'play-friend', uid: auth.currentUser.uid } }),
+			body: JSON.stringify({ message: { type: 'play-friend', uid: user } }),
 		})
 
 		listenGameStarted((id) => {
@@ -43,10 +47,10 @@ export default function HomePage() {
 	}
 
 	const handlePlayComputer = async () => {
-		setFindingGame(true)
+		setPlayComputer(true)
 		fetch('/api', {
 			method: 'POST',
-			body: JSON.stringify({ message: { type: 'find-game', uid: auth.currentUser.uid } }),
+			body: JSON.stringify({ message: { type: 'play-computer', uid: user } }),
 		})
 
 		listenGameStarted((id) => {
@@ -66,15 +70,27 @@ export default function HomePage() {
 					</button>
 				)}
 			</div>
-			<button className="mt-2 text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50" onClick={handlePlayFriend}>
-				Play a Friend
-			</button>
-			<button
-				className="mt-2 text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50"
-				onClick={handlePlayComputer}
-			>
-				Play Computer
-			</button>
+			<div className="mt-2">
+				{playFriend ? (
+					<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
+				) : (
+					<button className=" text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50" onClick={handlePlayFriend}>
+						Play a Friend
+					</button>
+				)}
+			</div>
+			<div className="mt-2">
+				{playComputer ? (
+					<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
+				) : (
+					<button
+						className="text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50"
+						onClick={handlePlayComputer}
+					>
+						Play Computer
+					</button>
+				)}
+			</div>
 		</main>
 	)
 }

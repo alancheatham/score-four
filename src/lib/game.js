@@ -262,11 +262,16 @@ function getMirrorMoves(moves) {
 	return { x, y }
 }
 
-export function movePlayed(flatBoard, whiteToMove) {
+export function flatToPegs(flatBoard) {
 	const board = []
 	for (let i = 0; i < 16; i++) {
 		board.push(flatBoard.slice(i * 4, i * 4 + 4))
 	}
+	return board
+}
+
+export function movePlayed(flatBoard, whiteToMove) {
+	const board = flatToPegs(flatBoard)
 
 	let winnerInfo = checkIfGameWon(board)
 	console.log(winnerInfo)
