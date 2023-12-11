@@ -3,19 +3,29 @@ import './globals.css'
 import { onAuthStateChanged, signOut, signInAnonymously } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { redirect, usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { Odibee_Sans } from 'next/font/google'
 
 const odibee = Odibee_Sans({ subsets: ['latin'], weight: ['400'] })
 
 export default function RootLayout({ children }) {
 	const path = usePathname()
-	const [userId, setUserId] = useState(localStorage.getItem('user'))
+	const [userId, setUserId] = useState('')
+
+	const mounted = useRef(false)
 
 	// if (localStorage && !localStorage.getItem('signedIn') && path !== '/signin') {
 	// 	location.href = '/signin'
 	// }
 
+	useEffect(() => {
+		if (!mounted.current) {
+			mounted.current = true
+			if (typeof window !== 'undefined') {
+				setUserId(localStorage.getItem('user'))
+			}
+		}
+	}, [mounted])
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -48,7 +58,14 @@ export default function RootLayout({ children }) {
 
 	return (
 		<html lang="en">
-			<body className={odibee.className}>{userId && children}</body>
+			<body className={odibee.className}>
+				<header className="p-3">
+					<a href="/" className="text-4xl text-white">
+						SCORE FOUR
+					</a>
+				</header>
+				{userId && children}
+			</body>
 		</html>
 	)
 }

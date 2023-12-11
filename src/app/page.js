@@ -11,7 +11,16 @@ export default function HomePage() {
 	const [playFriend, setPlayFriend] = useState(false)
 	const [playComputer, setPlayComputer] = useState(false)
 
-	const user = localStorage.getItem('user')
+	const [user, setUser] = useState('')
+
+	useEffect(() => {
+		if (!mounted.current) {
+			mounted.current = true
+			if (typeof window !== 'undefined') {
+				setUser(localStorage.getItem('user'))
+			}
+		}
+	}, [mounted])
 
 	// useEffect(() => {
 	// 	if (!mounted.current) {
@@ -60,7 +69,6 @@ export default function HomePage() {
 
 	return (
 		<main className="flex min-h-screen flex-col items-center p-24">
-			<div className="text-5xl text-white">SCORE FOUR</div>
 			<div className="mt-12">
 				{findingGame ? (
 					<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>

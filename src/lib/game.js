@@ -1,4 +1,5 @@
-function moveFindWinWontLose(board) {
+function moveFindWinWontLose(board, whiteToMove) {
+	const player = whiteToMove ? 1 : -1
 	const availablePegs = getAvailablePegs(board)
 
 	const index = Math.floor(Math.random() * availablePegs.length)
@@ -7,34 +8,34 @@ function moveFindWinWontLose(board) {
 	let nextMove = availablePegs[index] * 4 + pegIndex
 	// const newBoard = JSON.parse(JSON.stringify(board.slice(0, 4)))
 	for (const peg of availablePegs) {
-		// check for white win
+		// check for win
 		let newestBoard = JSON.parse(JSON.stringify(board))
 		let index = newestBoard[peg].indexOf(0)
-		newestBoard[peg][index] = 1
+		newestBoard[peg][index] = player
 		let winnerInfo = checkIfGameWon(newestBoard)
 		if (winnerInfo) {
 			const winner = winnerInfo.winner
-			if (winner === 'W') {
+			if ((player === 1 && winner === 'W') || (player === -1 && winner === 'B')) {
 				nextMove = peg * 4 + index
 				break
 			}
 		}
 
-		// prevent black win
+		// prevent loss
 		newestBoard = JSON.parse(JSON.stringify(board))
 		index = newestBoard[peg].indexOf(0)
-		newestBoard[peg][index] = -1
+		newestBoard[peg][index] = -player
 		winnerInfo = checkIfGameWon(newestBoard)
 		if (winnerInfo) {
 			const winner = winnerInfo.winner
-			if (winner === 'B') {
+			if ((player === 1 && winner === 'B') || (player === -1 && winner === 'W')) {
 				nextMove = peg * 4 + index
 				break
 			}
 		}
 	}
 	if (!isNaN(nextMove)) {
-		return nextMove
+		return Math.floor(nextMove / 4)
 	} else {
 		// this.neuralMove()
 	}
@@ -78,7 +79,6 @@ export function topMinimax(board, whiteToMove = true) {
 	let score = whiteToMove ? -Infinity : Infinity
 	let value = 0
 
-	debugger
 	const scores = {
 		'-1': [],
 		0: [],
@@ -141,7 +141,7 @@ export function topMinimax(board, whiteToMove = true) {
 
 	// game is lost, try to block anyway
 	// console.log('lost')
-	moveFindWinWontLose()
+	return moveFindWinWontLose(board, whiteToMove)
 }
 
 function minimax(board, depth, alpha, beta, isMaximizingPlayer) {
@@ -274,7 +274,6 @@ export function movePlayed(flatBoard, whiteToMove) {
 	const board = flatToPegs(flatBoard)
 
 	let winnerInfo = checkIfGameWon(board)
-	console.log(winnerInfo)
 
 	if (whiteToMove) {
 		// const move = topMinimax(board)

@@ -8,8 +8,10 @@ export default function SignUp() {
 			// const credential = GoogleAuthProvider.credentialFromResult(result)
 			// const token = credential.accessToken
 			// const user = result.user
-			localStorage.setItem('signedIn', 'true')
-			location.href = '/'
+			// if (typeof window !== 'undefined') {
+			// 	localStorage.setItem('signedIn', 'true')
+			// 	location.href = '/'
+			// }
 		})
 	}
 	return (

@@ -80,12 +80,11 @@ const calculateMove = async ({ gameId, pegIndex, board, sender, whitePlayerUid, 
 		if (whitePlayerUid !== COMPUTER) {
 			await setCurrentGame(whitePlayerUid, '')
 		}
-	}
-
-	if (sender !== COMPUTER && (blackPlayerUid === COMPUTER || whitePlayerUid === COMPUTER)) {
-		// computer's turn
-		await playComputerMove({ gameId, board: newBoard, whitePlayerUid, blackPlayerUid })
 	} else {
+		if (sender !== COMPUTER && (blackPlayerUid === COMPUTER || whitePlayerUid === COMPUTER)) {
+			// computer's turn
+			await playComputerMove({ gameId, board: newBoard, whitePlayerUid, blackPlayerUid })
+		}
 	}
 }
 
@@ -153,7 +152,7 @@ const handlePlayFriend = async (message) => {
 }
 
 const playComputerMove = async ({ gameId, board, whitePlayerUid, blackPlayerUid }) => {
-	const move = topMinimax(flatToPegs(board))
+	const move = topMinimax(flatToPegs(board), whitePlayerUid === COMPUTER)
 	await calculateMove({ pegIndex: move, gameId, board, sender: COMPUTER, whitePlayerUid, blackPlayerUid })
 }
 

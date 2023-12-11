@@ -129,6 +129,10 @@ export default function Game({ game, id }) {
 				}
 
 				listenToGame(id, (gameData) => {
+					if (gameData.moves.length === 1) {
+						return
+					}
+
 					const newBoard = JSON.parse(gameData.moves.slice(-1)[0].position)
 					setBoard(newBoard)
 					setMoves(gameData.moves)
@@ -229,9 +233,9 @@ export default function Game({ game, id }) {
 	}
 
 	return (
-		<main className="flex min-h-screen items-center text-white justify-center p-16">
+		<main className="flex min-h-screen items-center text-white justify-center">
 			<div
-				className={`bg-slate-500 p-20 rounded-md relative ${
+				className={`bg-slate-500 p-16 rounded-md relative ${
 					winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''
 				}`}
 			>
@@ -242,7 +246,7 @@ export default function Game({ game, id }) {
 			<div className="bg-slate-800 w-64 h-80 ml-8 flex flex-col rounded overflow-hidden">
 				<div
 					className={`text-2xl w-full text-center h-16 flex items-center justify-center ${
-						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
+						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white shrink-0'
 					}`}
 				>
 					{winner
@@ -278,9 +282,9 @@ export default function Game({ game, id }) {
 							</Fragment>
 						))}
 					</div>
-					{winner && (
+					{(winner || status === COMPLETED) && (
 						<button
-							className="flex justify-center items-center h-16 w-full text-2xl hover:bg-slate-700"
+							className="flex justify-center items-center h-16 w-full text-2xl hover:bg-slate-700 shrink-0"
 							onClick={handleRematchClick}
 						>
 							{rematchRequested ? (
