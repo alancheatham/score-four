@@ -245,8 +245,8 @@ export default function Game({ game, id }) {
 			</div>
 			<div className="bg-slate-800 w-64 h-80 ml-8 flex flex-col rounded overflow-hidden">
 				<div
-					className={`text-2xl w-full text-center h-16 flex items-center justify-center ${
-						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white shrink-0'
+					className={`text-2xl w-full text-center h-16 flex items-center justify-center shrink-0 ${
+						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
 					}`}
 				>
 					{winner
