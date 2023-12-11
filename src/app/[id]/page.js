@@ -8,9 +8,5 @@ export default async function Page({ params }) {
 		return <div>Game not found</div>
 	}
 
-	return (
-		<div>
-			<Game id={params.id} game={game}></Game>
-		</div>
-	)
+	return <Game id={params.id} game={game}></Game>
 }

@@ -58,6 +58,8 @@ export default function Game({ game, id }) {
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 	const [rematchRequested, setRematchRequested] = useState(false)
 
+	const boardRef = useRef(null)
+
 	const currentMoveIndex = moves.findIndex((x) => x.position === JSON.stringify(board))
 	const isCurrentMove = currentMoveIndex === moves.length - 1
 
@@ -116,8 +118,18 @@ export default function Game({ game, id }) {
 		[currentMoveIndex, moves, moveClick]
 	)
 
+	const scaleBoard = () => {
+		// boardRef.current.style.transform = `scale(${Math.min(window.innerHeight / 850, 1)})`
+		// boardRef.current.style.height = `${(window.innerHeight / 850) * 696}px`
+		// boardRef.current.style.width = `${(window.innerHeight / 850) * 376}px`
+		// boardRef.current.style.marginBottom = `10%`
+	}
+
 	useEffect(() => {
 		if (!mounted.current) {
+			scaleBoard()
+			window.addEventListener('resize', scaleBoard, true)
+
 			const fetchData = async () => {
 				if (game.status === AVAILABLE) {
 					if (userId !== game.blackPlayer.uid && userId !== game.whitePlayer.uid) {
@@ -233,15 +245,14 @@ export default function Game({ game, id }) {
 	}
 
 	return (
-		<main className="flex min-h-screen items-center text-white justify-center">
+		<main className="flex items-center text-white justify-center grow p-8">
 			<div
-				className={`bg-slate-500 p-16 rounded-md relative ${
+				className={`bg-slate-500 p-16 rounded-md relative origin-top ${
 					winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''
 				}`}
+				ref={boardRef}
 			>
-				<div>
-					<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
-				</div>
+				<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
 			</div>
 			<div className="bg-slate-800 w-64 h-80 ml-8 flex flex-col rounded overflow-hidden">
 				<div

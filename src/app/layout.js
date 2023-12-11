@@ -58,7 +58,7 @@ export default function RootLayout({ children }) {
 
 	return (
 		<html lang="en">
-			<body className={odibee.className}>
+			<body className={`h-screen flex flex-col ${odibee.className}`}>
 				<header className="p-3">
 					<a href="/" className="text-4xl text-white">
 						SCORE FOUR
