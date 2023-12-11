@@ -119,10 +119,12 @@ export default function Game({ game, id }) {
 	)
 
 	const scaleBoard = () => {
-		// boardRef.current.style.transform = `scale(${Math.min(window.innerHeight / 850, 1)})`
-		// boardRef.current.style.height = `${(window.innerHeight / 850) * 696}px`
-		// boardRef.current.style.width = `${(window.innerHeight / 850) * 376}px`
-		// boardRef.current.style.marginBottom = `10%`
+		// pretty hacky
+		boardRef.current.style.transform = `scale(${Math.min(window.innerHeight / 850, 1)})`
+		const marginBottom = ((1 - Math.min(window.innerHeight / 850, 1)) * 100 * 3) / 4
+		const marginRight = ((1 - Math.min(window.innerHeight / 850, 1)) * 100) / 4
+		boardRef.current.style.marginBottom = `-${marginBottom}%`
+		boardRef.current.style.marginRight = `-${marginRight}%`
 	}
 
 	useEffect(() => {
