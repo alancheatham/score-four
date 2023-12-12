@@ -26,6 +26,7 @@ export default function RootLayout({ children }) {
 			}
 		}
 	}, [mounted])
+
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			const unsubscribe = onAuthStateChanged(auth, (user) => {

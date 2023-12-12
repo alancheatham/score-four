@@ -68,31 +68,34 @@ export default function HomePage() {
 	}
 
 	return (
-		<main className="flex min-h-screen flex-col items-center p-24">
+		<main className="flex flex-col items-center p-24">
 			<div className="mt-12">
 				{findingGame ? (
-					<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
+					<div className="animate-spin w-16 h-16 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
 				) : (
-					<button className="text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50" onClick={handleFindGame}>
+					<button className="text-2xl h-16 w-60 border-2 text-white rounded hover:opacity-50" onClick={handleFindGame}>
 						Find Game
 					</button>
 				)}
 			</div>
-			<div className="mt-2">
+			<div className="mt-4">
 				{playFriend ? (
-					<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
+					<div className="animate-spin w-16 h-16 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
 				) : (
-					<button className=" text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50" onClick={handlePlayFriend}>
+					<button
+						className=" text-2xl h-16 w-60 border-2 text-white rounded hover:opacity-50"
+						onClick={handlePlayFriend}
+					>
 						Play a Friend
 					</button>
 				)}
 			</div>
-			<div className="mt-2">
+			<div className="mt-4">
 				{playComputer ? (
-					<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
+					<div className="animate-spin w-16 h-16 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
 				) : (
 					<button
-						className="text-xl p-1 w-40 border-2 text-white rounded hover:opacity-50"
+						className="text-2xl h-16 w-60 border-2 text-white rounded hover:opacity-50"
 						onClick={handlePlayComputer}
 					>
 						Play Computer

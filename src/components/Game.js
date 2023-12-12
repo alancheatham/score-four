@@ -143,7 +143,7 @@ export default function Game({ game, id }) {
 				}
 
 				listenToGame(id, (gameData) => {
-					if (gameData.moves.length === 1) {
+					if (moves.length > gameData.moves.length) {
 						return
 					}
 
@@ -247,16 +247,16 @@ export default function Game({ game, id }) {
 	}
 
 	return (
-		<main className="flex items-center text-white justify-center grow p-8">
+		<main className="flex flex-col sm:flex-row items-center text-white justify-center grow p-8">
 			<div
-				className={`bg-slate-500 p-16 rounded-md relative origin-top ${
+				className={`bg-slate-500 p-16 min-w-96 rounded-md relative origin-top ${
 					winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''
 				}`}
 				ref={boardRef}
 			>
 				<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
 			</div>
-			<div className="bg-slate-800 w-64 h-80 ml-8 flex flex-col rounded overflow-hidden">
+			<div className="bg-slate-800 w-full sm:w-64 h-80 sm:ml-8 flex flex-col rounded overflow-hidden mt-8">
 				<div
 					className={`text-2xl w-full text-center h-16 flex items-center justify-center shrink-0 ${
 						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
