@@ -10,14 +10,14 @@ import { checkIfGameWon } from '@/lib/game'
 function Peg({ beads, onPegClick, className }) {
 	return (
 		<div
-			className={`bg-gray-400 rounded w-8 h-28 flex flex-col-reverse items-center justify-start overflow-hidden ${className}`}
+			className={`bg-gray-400 rounded w-full h-full flex flex-col-reverse items-center justify-start overflow-hidden ${className}`}
 			onClick={onPegClick}
 		>
 			{beads
 				.filter((bead) => bead !== 0)
 				.map((bead, i) => (
 					<div
-						className={`w-full h-6 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
+						className={`w-full h-1/5 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
 						key={`bead-${i}`}
 					></div>
 				))}
@@ -31,7 +31,7 @@ function Grid({ board, onPegClick, winningPegs, myTurn, status }) {
 	}
 
 	return (
-		<div className="grid grid-cols-4 grid-rows-4 gap-10">
+		<div className="grid grid-cols-4 grid-rows-4 w-full h-full gap-x-[15%] gap-y-[5%]">
 			{pegs.map((beads, i) => (
 				<Peg
 					beads={beads}
@@ -84,8 +84,10 @@ export default function Game({ game, id }) {
 	const moveClick = useCallback(
 		(move) => {
 			setBoard(JSON.parse(move.position))
-			setWinner('')
 			setWinningPegs([])
+			if (status !== COMPLETED) {
+				setWinner('')
+			}
 		},
 		[moveContainerRef, currentMoveIndex, moves]
 	)
@@ -118,20 +120,8 @@ export default function Game({ game, id }) {
 		[currentMoveIndex, moves, moveClick]
 	)
 
-	const scaleBoard = () => {
-		// pretty hacky
-		boardRef.current.style.transform = `scale(${Math.min(window.innerHeight / 850, 1)})`
-		const marginBottom = ((1 - Math.min(window.innerHeight / 850, 1)) * 100 * 3) / 4
-		const marginRight = ((1 - Math.min(window.innerHeight / 850, 1)) * 100) / 4
-		boardRef.current.style.marginBottom = `-${marginBottom}%`
-		boardRef.current.style.marginRight = `-${marginRight}%`
-	}
-
 	useEffect(() => {
 		if (!mounted.current) {
-			scaleBoard()
-			window.addEventListener('resize', scaleBoard, true)
-
 			const fetchData = async () => {
 				if (game.status === AVAILABLE) {
 					if (userId !== game.blackPlayer.uid && userId !== game.whitePlayer.uid) {
@@ -247,16 +237,18 @@ export default function Game({ game, id }) {
 	}
 
 	return (
-		<main className="flex flex-col sm:flex-row items-center text-white justify-center grow p-8">
+		<main className="flex flex-col sm:flex-row items-center text-white justify-center grow sm:p-8">
 			<div
-				className={`bg-slate-500 p-16 min-w-96 rounded-md relative origin-top ${
+				className={`bg-slate-500 aspect-[5/9] h-[80vh] rounded-md relative origin-top ${
 					winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''
 				}`}
 				ref={boardRef}
 			>
-				<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
+				<div className="p-[15%] w-full h-full">
+					<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
+				</div>
 			</div>
-			<div className="bg-slate-800 w-full sm:w-64 h-80 sm:ml-8 flex flex-col rounded overflow-hidden mt-8">
+			<div className="bg-slate-800 w-full sm:w-64 h-80 sm:ml-8 flex flex-col rounded overflow-hidden sm:mt-8">
 				<div
 					className={`text-2xl w-full text-center h-16 flex items-center justify-center shrink-0 ${
 						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
