@@ -17,7 +17,7 @@ function Peg({ beads, onPegClick, className }) {
 				.filter((bead) => bead !== 0)
 				.map((bead, i) => (
 					<div
-						className={`w-full h-1/5 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
+						className={`w-full h-[22%] border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
 						key={`bead-${i}`}
 					></div>
 				))}
