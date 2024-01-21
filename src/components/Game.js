@@ -7,7 +7,7 @@ import { listenToGame, listenGameStarted } from '@/firestore/get-data'
 
 import { checkIfGameWon } from '@/lib/game'
 
-function Peg({ beads, onPegClick, className }) {
+function Peg({ beads, onPegClick, className, lastMoveIndex }) {
 	return (
 		<div
 			className={`bg-gray-400 rounded w-full h-full flex flex-col-reverse items-center justify-start overflow-hidden ${className}`}
@@ -17,18 +17,28 @@ function Peg({ beads, onPegClick, className }) {
 				.filter((bead) => bead !== 0)
 				.map((bead, i) => (
 					<div
-						className={`w-full h-1/5 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
+						className={`relative w-full h-1/5 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
 						key={`bead-${i}`}
-					></div>
+					>
+						{lastMoveIndex === i && (
+							<div
+								className={`w-full h-full bg-[rgba(232,239,0,.51)] absolute top-0 left-0 ${i === 0 && 'rounded-b'}`}
+							></div>
+						)}
+					</div>
 				))}
 		</div>
 	)
 }
-function Grid({ board, onPegClick, winningPegs, myTurn, status }) {
+
+function Grid({ board, onPegClick, winningPegs, myTurn, status, lastMoveIndex }) {
 	const pegs = []
 	for (let i = 0; i < 16; i++) {
 		pegs.push(board.slice(i * 4, i * 4 + 4))
 	}
+
+	const lastMovePegIndex = lastMoveIndex ? Math.floor(lastMoveIndex / 4) : null
+	const lastMoveBeadIndex = lastMoveIndex ? lastMoveIndex % 4 : null
 
 	return (
 		<div className="grid grid-cols-4 grid-rows-4 w-full h-full gap-x-[15%] gap-y-[5%]">
@@ -37,6 +47,7 @@ function Grid({ board, onPegClick, winningPegs, myTurn, status }) {
 					beads={beads}
 					key={`peg-${i}`}
 					onPegClick={() => onPegClick(i)}
+					lastMoveIndex={lastMovePegIndex === i ? lastMoveBeadIndex : null}
 					className={`${winningPegs.length > 0 && !winningPegs.includes(i) && 'opacity-30'} ${
 						myTurn && !beads.find((x) => x === 0) && status === IN_PROGRESS && 'cursor-pointer'
 					}`}
@@ -57,6 +68,13 @@ export default function Game({ game, id }) {
 	const isBlack = userId === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 	const [rematchRequested, setRematchRequested] = useState(false)
+
+	const lastMoveIndex =
+		moves.length > 1
+			? JSON.parse(moves[moves.length - 1].position)
+					.map((slot, i) => slot - JSON.parse(moves[moves.length - 2].position)[i])
+					.findIndex((x) => x !== 0)
+			: null
 
 	const boardRef = useRef(null)
 
@@ -245,7 +263,14 @@ export default function Game({ game, id }) {
 				ref={boardRef}
 			>
 				<div className="p-[15%] w-full h-full">
-					<Grid board={board} onPegClick={handlePegClick} winningPegs={winningPegs} myTurn={myTurn} status={status} />
+					<Grid
+						board={board}
+						onPegClick={handlePegClick}
+						winningPegs={winningPegs}
+						myTurn={myTurn}
+						status={status}
+						lastMoveIndex={lastMoveIndex}
+					/>
 				</div>
 			</div>
 			<div className="bg-slate-800 w-full sm:w-64 h-80 sm:ml-8 flex flex-col rounded overflow-hidden sm:mt-8">

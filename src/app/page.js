@@ -69,7 +69,7 @@ export default function HomePage() {
 
 	return (
 		<main className="flex flex-col items-center p-24">
-			<div className="mt-12">
+			{/* <div className="mt-12">
 				{findingGame ? (
 					<div className="animate-spin w-16 h-16 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
 				) : (
@@ -77,8 +77,8 @@ export default function HomePage() {
 						Find Game
 					</button>
 				)}
-			</div>
-			<div className="mt-4">
+			</div> */}
+			<div className="mt-12">
 				{playFriend ? (
 					<div className="animate-spin w-16 h-16 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
 				) : (
