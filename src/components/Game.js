@@ -10,22 +10,20 @@ import { checkIfGameWon } from '@/lib/game'
 function Peg({ beads, onPegClick, className, lastMoveIndex, winningBeads }) {
 	return (
 		<div
-			className={`bg-gray-400 rounded w-full h-full flex flex-col-reverse items-center justify-start overflow-hidden ${className}`}
+			className={`bg-gray-400 rounded w-full h-full flex flex-col-reverse items-center justify-start ${className}`}
 			onClick={onPegClick}
 		>
 			{beads
 				.filter((bead) => bead !== 0)
 				.map((bead, i) => (
 					<div
-						className={`flex justify-center items-center w-full h-1/5 border-t border-gray-400 ${
+						className={`flex relative justify-center items-center w-full h-1/5 border-t border-gray-400 ${
 							bead === 1 ? 'bg-white' : 'bg-black'
+						} ${(lastMoveIndex === i || winningBeads.includes(i)) && 'shadow-[0_0_2px_2px_rgba(232,239,0,.71)]'} ${
+							i === 0 && 'rounded-b'
 						}`}
 						key={`bead-${i}`}
-					>
-						{(lastMoveIndex === i || winningBeads.includes(i)) && (
-							<div className={`w-2/5 aspect-[1/1] bg-[rgba(232,239,0,.71)] rounded-full`}></div>
-						)}
-					</div>
+					></div>
 				))}
 		</div>
 	)
