@@ -380,6 +380,7 @@ function fourInARowHelper(currentBead, potentialWin, iteration) {
 
 function checkHorizontalPlanes(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// z axis
 	for (let z = 0; z < 4; z++) {
@@ -389,15 +390,18 @@ function checkHorizontalPlanes(board) {
 			for (let x = 0; x < 4; x++) {
 				const currentPeg = y * 4 + x
 				const currentBead = board[currentPeg][z]
+				winningBeads.push(currentPeg * 4 + z)
 
 				const winner = fourInARowHelper(currentBead, potentialWin, x)
 				if (winner) {
 					return {
 						winner,
 						winningPegs: [currentPeg, currentPeg - 1, currentPeg - 2, currentPeg - 3],
+						winningBeads,
 					}
 				} else if (winner === false) {
 					potentialWin = []
+					winningBeads = []
 				}
 			}
 		}
@@ -406,6 +410,7 @@ function checkHorizontalPlanes(board) {
 
 function checkVerticalPlanes(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// z axis
 	for (let z = 0; z < 4; z++) {
@@ -415,15 +420,18 @@ function checkVerticalPlanes(board) {
 			for (let y = 0; y < 4; y++) {
 				const currentPeg = y * 4 + x
 				const currentBead = board[currentPeg][z]
+				winningBeads.push(currentPeg * 4 + z)
 
 				const winner = fourInARowHelper(currentBead, potentialWin, y)
 				if (winner) {
 					return {
 						winner,
 						winningPegs: [currentPeg, currentPeg - 4, currentPeg - 8, currentPeg - 12],
+						winningBeads,
 					}
 				} else if (winner === false) {
 					potentialWin = []
+					winningBeads = []
 				}
 			}
 		}
@@ -432,6 +440,7 @@ function checkVerticalPlanes(board) {
 
 function checkDiagonalPlanes(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// z axis
 	for (let z = 0; z < 4; z++) {
@@ -439,15 +448,18 @@ function checkDiagonalPlanes(board) {
 		for (let d1 = 0; d1 < 4; d1++) {
 			const currentPeg = d1 * 5
 			const currentBead = board[currentPeg][z]
+			winningBeads.push(currentPeg * 4 + z)
 
 			const winner = fourInARowHelper(currentBead, potentialWin, d1)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [0, 5, 10, 15],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 
@@ -455,15 +467,18 @@ function checkDiagonalPlanes(board) {
 		for (let d2 = 0; d2 < 4; d2++) {
 			const currentPeg = d2 * 3 + 3
 			const currentBead = board[currentPeg][z]
+			winningBeads.push(currentPeg * 4 + z)
 
 			const winner = fourInARowHelper(currentBead, potentialWin, d2)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [3, 6, 9, 12],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 	}
@@ -471,6 +486,7 @@ function checkDiagonalPlanes(board) {
 
 function checkVerticalPegs(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// y axis
 	for (let y = 0; y < 4; y++) {
@@ -480,15 +496,18 @@ function checkVerticalPegs(board) {
 			for (let z = 0; z < 4; z++) {
 				const currentPeg = y * 4 + x
 				const currentBead = board[currentPeg][z]
+				winningBeads.push(currentPeg * 4 + z)
 
 				const winner = fourInARowHelper(currentBead, potentialWin, z)
 				if (winner) {
 					return {
 						winner,
 						winningPegs: [currentPeg],
+						winningBeads,
 					}
 				} else if (winner === false) {
 					potentialWin = []
+					winningBeads = []
 				}
 			}
 		}
@@ -497,6 +516,7 @@ function checkVerticalPegs(board) {
 
 function checkHorizontalStairs(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// y axis
 	for (let y = 0; y < 4; y++) {
@@ -504,15 +524,18 @@ function checkHorizontalStairs(board) {
 		for (let lr = 0; lr < 4; lr++) {
 			const currentPeg = y * 4 + lr
 			const currentBead = board[currentPeg][lr]
+			winningBeads.push(currentPeg * 4 + lr)
 
 			const winner = fourInARowHelper(currentBead, potentialWin, lr)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [currentPeg, currentPeg - 1, currentPeg - 2, currentPeg - 3],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 
@@ -520,15 +543,18 @@ function checkHorizontalStairs(board) {
 		for (let rl = 0; rl < 4; rl++) {
 			const currentPeg = y * 4 + rl
 			const currentBead = board[currentPeg][3 - rl]
+			winningBeads.push(currentPeg * 4 + 3 - rl)
 
 			const winner = fourInARowHelper(currentBead, potentialWin, rl)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [currentPeg, currentPeg - 1, currentPeg - 2, currentPeg - 3],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 	}
@@ -536,6 +562,7 @@ function checkHorizontalStairs(board) {
 
 function checkVerticalStairs(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// x axis
 	for (let x = 0; x < 4; x++) {
@@ -543,15 +570,18 @@ function checkVerticalStairs(board) {
 		for (let ud = 0; ud < 4; ud++) {
 			const currentPeg = ud * 4 + x
 			const currentBead = board[currentPeg][ud]
+			winningBeads.push(currentPeg * 4 + ud)
 
 			const winner = fourInARowHelper(currentBead, potentialWin, ud)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [currentPeg, currentPeg - 4, currentPeg - 8, currentPeg - 12],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 
@@ -559,15 +589,18 @@ function checkVerticalStairs(board) {
 		for (let du = 0; du < 4; du++) {
 			const currentPeg = du * 4 + x
 			const currentBead = board[currentPeg][3 - du]
+			winningBeads.push(currentPeg * 4 + 3 - du)
 
 			const winner = fourInARowHelper(currentBead, potentialWin, du)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [currentPeg, currentPeg - 4, currentPeg - 8, currentPeg - 12],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 	}
@@ -575,21 +608,25 @@ function checkVerticalStairs(board) {
 
 function checkDiagonalStairs(board) {
 	let potentialWin = []
+	let winningBeads = []
 
 	// diagonal one
 	for (let rl = 0; rl < 2; rl++) {
 		for (let d1 = 0; d1 < 4; d1++) {
 			const currentPeg = d1 * 5
 			const currentBead = rl === 0 ? board[currentPeg][3 - d1] : board[currentPeg][d1]
+			winningBeads.push(currentPeg * 4 + (rl === 0 ? 3 - d1 : d1))
 
 			const winner = fourInARowHelper(currentBead, potentialWin, d1)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [0, 5, 10, 15],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 	}
@@ -599,15 +636,18 @@ function checkDiagonalStairs(board) {
 		for (let d2 = 0; d2 < 4; d2++) {
 			const currentPeg = d2 * 3 + 3
 			const currentBead = rl === 0 ? board[currentPeg][3 - d2] : board[currentPeg][d2]
+			winningBeads = [currentPeg * 4 + (rl === 0 ? 3 - d2 : d2)]
 
 			const winner = fourInARowHelper(currentBead, potentialWin, d2)
 			if (winner) {
 				return {
 					winner,
 					winningPegs: [3, 6, 9, 12],
+					winningBeads,
 				}
 			} else if (winner === false) {
 				potentialWin = []
+				winningBeads = []
 			}
 		}
 	}

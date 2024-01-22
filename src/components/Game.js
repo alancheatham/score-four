@@ -7,7 +7,7 @@ import { listenToGame, listenGameStarted } from '@/firestore/get-data'
 
 import { checkIfGameWon } from '@/lib/game'
 
-function Peg({ beads, onPegClick, className, lastMoveIndex }) {
+function Peg({ beads, onPegClick, className, lastMoveIndex, winningBeads }) {
 	return (
 		<div
 			className={`bg-gray-400 rounded w-full h-full flex flex-col-reverse items-center justify-start overflow-hidden ${className}`}
@@ -17,13 +17,13 @@ function Peg({ beads, onPegClick, className, lastMoveIndex }) {
 				.filter((bead) => bead !== 0)
 				.map((bead, i) => (
 					<div
-						className={`relative w-full h-1/5 border-t border-gray-400 ${bead === 1 ? 'bg-white' : 'bg-black'}`}
+						className={`flex justify-center items-center w-full h-1/5 border-t border-gray-400 ${
+							bead === 1 ? 'bg-white' : 'bg-black'
+						}`}
 						key={`bead-${i}`}
 					>
-						{lastMoveIndex === i && (
-							<div
-								className={`w-full h-full bg-[rgba(232,239,0,.51)] absolute top-0 left-0 ${i === 0 && 'rounded-b'}`}
-							></div>
+						{(lastMoveIndex === i || winningBeads.includes(i)) && (
+							<div className={`w-2/5 aspect-[1/1] bg-[rgba(232,239,0,.71)] rounded-full`}></div>
 						)}
 					</div>
 				))}
@@ -31,7 +31,7 @@ function Peg({ beads, onPegClick, className, lastMoveIndex }) {
 	)
 }
 
-function Grid({ board, onPegClick, winningPegs, myTurn, status, lastMoveIndex }) {
+function Grid({ board, onPegClick, winningPegs, winningBeads, myTurn, status, lastMoveIndex }) {
 	const pegs = []
 	for (let i = 0; i < 16; i++) {
 		pegs.push(board.slice(i * 4, i * 4 + 4))
@@ -47,6 +47,7 @@ function Grid({ board, onPegClick, winningPegs, myTurn, status, lastMoveIndex })
 					beads={beads}
 					key={`peg-${i}`}
 					onPegClick={() => onPegClick(i)}
+					winningBeads={winningBeads.filter((bead) => Math.floor(bead / 4) === i).map((bead) => bead % 4)}
 					lastMoveIndex={lastMovePegIndex === i ? lastMoveBeadIndex : null}
 					className={`${winningPegs.length > 0 && !winningPegs.includes(i) && 'opacity-30'} ${
 						myTurn && !beads.find((x) => x === 0) && status === IN_PROGRESS && 'cursor-pointer'
@@ -63,22 +64,24 @@ export default function Game({ game, id }) {
 	const [status, setStatus] = useState(game.status)
 	const [winner, setWinner] = useState(game.winner)
 	const [winningPegs, setWinningPegs] = useState(game.winningPegs)
+	const [winningBeads, setWinningBeads] = useState(game.winningBeads)
 	const mounted = useRef(false)
 	const userId = localStorage.getItem('user')
 	const isBlack = userId === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 	const [rematchRequested, setRematchRequested] = useState(false)
 
-	const lastMoveIndex =
-		moves.length > 1
-			? JSON.parse(moves[moves.length - 1].position)
-					.map((slot, i) => slot - JSON.parse(moves[moves.length - 2].position)[i])
-					.findIndex((x) => x !== 0)
-			: null
-
 	const boardRef = useRef(null)
 
 	const currentMoveIndex = moves.findIndex((x) => x.position === JSON.stringify(board))
+
+	const lastMoveIndex =
+		currentMoveIndex > 0
+			? JSON.parse(moves[currentMoveIndex].position)
+					.map((slot, i) => slot - JSON.parse(moves[currentMoveIndex - 1].position)[i])
+					.findIndex((x) => x !== 0)
+			: null
+
 	const isCurrentMove = currentMoveIndex === moves.length - 1
 
 	const moveContainerRef = useRef(null)
@@ -97,12 +100,14 @@ export default function Game({ game, id }) {
 	if (!winner && newWinner) {
 		setWinningPegs(newWinner.winningPegs)
 		setWinner(newWinner.winner)
+		setWinningBeads(newWinner.winningBeads)
 	}
 
 	const moveClick = useCallback(
 		(move) => {
 			setBoard(JSON.parse(move.position))
 			setWinningPegs([])
+			setWinningBeads([])
 			if (status !== COMPLETED) {
 				setWinner('')
 			}
@@ -217,6 +222,7 @@ export default function Game({ game, id }) {
 
 		if (winner) {
 			setWinningPegs(winner.winningPegs)
+			setWinningBeads(winner.winningBeads)
 			setWinner(winner.winner)
 		}
 
@@ -267,6 +273,7 @@ export default function Game({ game, id }) {
 						board={board}
 						onPegClick={handlePegClick}
 						winningPegs={winningPegs}
+						winningBeads={winningBeads}
 						myTurn={myTurn}
 						status={status}
 						lastMoveIndex={lastMoveIndex}

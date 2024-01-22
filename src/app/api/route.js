@@ -70,7 +70,7 @@ const calculateMove = async ({ gameId, pegIndex, board, sender, whitePlayerUid, 
 	newBoard[pegIndex * 4 + emptySlot] = isBlack ? -1 : 1
 	const winner = checkIfGameWon(newBoard)
 
-	await playMove(gameId, pegToNotation(pegIndex), newBoard, winner?.winner, winner?.winningPegs)
+	await playMove(gameId, pegToNotation(pegIndex), newBoard, winner?.winner, winner?.winningPegs, winner?.winningBeads)
 
 	if (winner) {
 		if (blackPlayerUid !== COMPUTER) {
@@ -113,6 +113,7 @@ const handleNewGame = async () => {
 		board: Array(64).fill(0),
 		winner: '',
 		winningPegs: [],
+		winningBeads: [],
 		whiteToMove: true,
 	}
 

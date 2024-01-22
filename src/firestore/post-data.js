@@ -20,13 +20,13 @@ export async function joinGame(id, userId, black) {
 	)
 }
 
-export async function playMove(id, lastMove, board, winner = '', winningPegs = []) {
+export async function playMove(id, lastMove, board, winner = '', winningPegs = [], winningBeads = []) {
 	updateDoc(doc(db, 'games', id), {
 		moves: arrayUnion({
 			lastMove: lastMove,
 			position: JSON.stringify(board),
 		}),
-		...(winner ? { winner: winner, winningPegs, status: COMPLETED } : {}),
+		...(winner ? { winner: winner, winningPegs, winningBeads, status: COMPLETED } : {}),
 	})
 }
 
@@ -81,6 +81,7 @@ export async function createGame(playerOne, playerTwo = '', blackFirst = true) {
 		status: playerTwo ? IN_PROGRESS : AVAILABLE,
 		winner: null,
 		winningPegs: [],
+		winningBeads: [],
 	})
 
 	if (playerOne && playerOne !== COMPUTER) {
