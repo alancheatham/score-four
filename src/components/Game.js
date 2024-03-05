@@ -6,6 +6,7 @@ import { AVAILABLE, IN_PROGRESS, COMPLETED } from '@/lib/constants'
 import { listenToGame, listenGameStarted } from '@/firestore/get-data'
 
 import { checkIfGameWon } from '@/lib/game'
+import InviteToGame from './InviteToGame'
 
 function Peg({ beads, onPegClick, className, lastMoveIndex, winningBeads }) {
 	return (
@@ -19,7 +20,7 @@ function Peg({ beads, onPegClick, className, lastMoveIndex, winningBeads }) {
 					<div
 						className={`flex relative justify-center items-center w-full h-1/5 border-t border-gray-400 ${
 							bead === 1 ? 'bg-white' : 'bg-black'
-						} ${(lastMoveIndex === i || winningBeads.includes(i)) && 'shadow-[0_0_2px_2px_rgba(232,239,0,.71)]'} ${
+						} ${(lastMoveIndex === i || winningBeads?.includes(i)) && 'shadow-[0_0_2px_2px_rgb(202,209,0)] z-10'} ${
 							i === 0 && 'rounded-b'
 						}`}
 						key={`bead-${i}`}
@@ -45,7 +46,7 @@ function Grid({ board, onPegClick, winningPegs, winningBeads, myTurn, status, la
 					beads={beads}
 					key={`peg-${i}`}
 					onPegClick={() => onPegClick(i)}
-					winningBeads={winningBeads.filter((bead) => Math.floor(bead / 4) === i).map((bead) => bead % 4)}
+					winningBeads={winningBeads?.filter((bead) => Math.floor(bead / 4) === i).map((bead) => bead % 4)}
 					lastMoveIndex={lastMovePegIndex === i ? lastMoveBeadIndex : null}
 					className={`${winningPegs.length > 0 && !winningPegs.includes(i) && 'opacity-30'} ${
 						myTurn && !beads.find((x) => x === 0) && status === IN_PROGRESS && 'cursor-pointer'
@@ -260,77 +261,86 @@ export default function Game({ game, id }) {
 
 	return (
 		<main className="flex flex-col sm:flex-row items-center text-white justify-center grow sm:p-8">
-			<div
-				className={`bg-slate-500 aspect-[5/9] h-[80vh] rounded-md relative origin-top ${
-					winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''
-				}`}
-				ref={boardRef}
-			>
-				<div className="p-[15%] w-full h-full">
-					<Grid
-						board={board}
-						onPegClick={handlePegClick}
-						winningPegs={winningPegs}
-						winningBeads={winningBeads}
-						myTurn={myTurn}
-						status={status}
-						lastMoveIndex={lastMoveIndex}
-					/>
-				</div>
-			</div>
-			<div className="bg-slate-800 w-full sm:w-64 h-80 sm:ml-8 flex flex-col rounded overflow-hidden sm:mt-8">
-				<div
-					className={`text-2xl w-full text-center h-16 flex items-center justify-center shrink-0 ${
-						((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
-					}`}
-				>
-					{winner
-						? winner === 'W'
-							? 'White Wins'
-							: winner === 'B'
-							? 'Black Wins'
-							: 'Draw'
-						: status !== COMPLETED
-						? status === AVAILABLE
-							? 'Waiting for Opponent'
-							: myTurn
-							? 'Your Turn'
-							: "Opponent's Turn"
-						: 'Game Completed'}
-				</div>
-				<div className="flex flex-col justify-between min-h-0 grow">
+			{status === AVAILABLE ? (
+				<InviteToGame />
+			) : (
+				<>
 					<div
-						ref={moveContainerRef}
-						className="grid grid-cols-[30px_1fr_1fr] bg-slate-800 m-h-0 overflow-y-auto overflow-x-hidden no-scrollbar"
+						className={`bg-slate-500 aspect-[5/9] h-[80vh] rounded-md relative origin-top ${
+							winner === 'W' ? 'text-white' : winner === 'B' ? 'text-black' : ''
+						}`}
+						ref={boardRef}
 					>
-						{moves.slice(1).map((move, i) => (
-							<Fragment key={`move-${i}`}>
-								{i % 2 === 0 && <div className="text-center bg-slate-500">{i / 2 + 1}</div>}
-								<div
-									className={`cursor-pointer pl-4 ${
-										currentMoveIndex === i + 1 ? 'bg-slate-600' : 'hover:bg-slate-700'
-									}`}
-									onClick={() => moveClick(move)}
-								>
-									{move.lastMove}
-								</div>
-							</Fragment>
-						))}
+						<div className="p-[15%] w-full h-full">
+							<Grid
+								board={board}
+								onPegClick={handlePegClick}
+								winningPegs={winningPegs}
+								winningBeads={winningBeads}
+								myTurn={myTurn}
+								status={status}
+								lastMoveIndex={lastMoveIndex}
+							/>
+						</div>
 					</div>
-					{(winner || status === COMPLETED) && (
-						<button
-							className="flex justify-center items-center h-16 w-full text-2xl hover:bg-slate-700 shrink-0"
-							onClick={handleRematchClick}
+					<div className="bg-slate-800 w-full sm:w-64 h-80 sm:ml-8 flex flex-col rounded overflow-hidden sm:mt-8">
+						<div
+							className={`text-2xl w-full text-center h-16 flex items-center justify-center shrink-0 ${
+								((myTurn && !isBlack) || (!myTurn && isBlack)) && 'text-white'
+							}`}
 						>
-							{rematchRequested ? (
-								<div className="animate-spin w-10 h-10 rounded-full" style={{ borderBottom: 'solid 5px white' }}></div>
-							) : (
-								<div>Rematch</div>
+							{winner
+								? winner === 'W'
+									? 'White Wins'
+									: winner === 'B'
+									? 'Black Wins'
+									: 'Draw'
+								: status !== COMPLETED
+								? status === AVAILABLE
+									? 'Waiting for Opponent'
+									: myTurn
+									? 'Your Turn'
+									: "Opponent's Turn"
+								: 'Game Completed'}
+						</div>
+						<div className="flex flex-col justify-between min-h-0 grow">
+							<div
+								ref={moveContainerRef}
+								className="grid grid-cols-[30px_1fr_1fr] bg-slate-800 m-h-0 overflow-y-auto overflow-x-hidden no-scrollbar"
+							>
+								{moves.slice(1).map((move, i) => (
+									<Fragment key={`move-${i}`}>
+										{i % 2 === 0 && <div className="text-center bg-slate-500">{i / 2 + 1}</div>}
+										<div
+											className={`cursor-pointer pl-4 ${
+												currentMoveIndex === i + 1 ? 'bg-slate-600' : 'hover:bg-slate-700'
+											}`}
+											onClick={() => moveClick(move)}
+										>
+											{move.lastMove}
+										</div>
+									</Fragment>
+								))}
+							</div>
+							{(winner || status === COMPLETED) && (
+								<button
+									className="flex justify-center items-center h-16 w-full text-2xl hover:bg-slate-700 shrink-0"
+									onClick={handleRematchClick}
+								>
+									{rematchRequested ? (
+										<div
+											className="animate-spin w-10 h-10 rounded-full"
+											style={{ borderBottom: 'solid 5px white' }}
+										></div>
+									) : (
+										<div>Rematch</div>
+									)}
+								</button>
 							)}
-						</button>
-					)}
-				</div>
-			</div>
+						</div>
+					</div>
+				</>
+			)}
 		</main>
 	)
 }
