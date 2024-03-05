@@ -69,6 +69,7 @@ export default function Game({ game, id }) {
 	const isBlack = userId === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 	const [rematchRequested, setRematchRequested] = useState(false)
+	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
 
 	const boardRef = useRef(null)
 
@@ -84,6 +85,12 @@ export default function Game({ game, id }) {
 	const isCurrentMove = currentMoveIndex === moves.length - 1
 
 	const moveContainerRef = useRef(null)
+
+	useEffect(() => {
+		if (status !== AVAILABLE) {
+			setWaitingForOpponent(false)
+		}
+	}, [status])
 
 	useEffect(() => {
 		if (moveContainerRef.current) {
@@ -147,11 +154,14 @@ export default function Game({ game, id }) {
 			const fetchData = async () => {
 				if (game.status === AVAILABLE) {
 					if (userId !== game.blackPlayer.uid && userId !== game.whitePlayer.uid) {
+						setWaitingForOpponent(false)
 						await fetch('/api', {
 							method: 'POST',
 							body: JSON.stringify({ message: { type: 'join-game', gameId: id }, sender: userId }),
 						})
 					}
+				} else {
+					setWaitingForOpponent(false)
 				}
 
 				listenToGame(id, (gameData) => {
@@ -261,7 +271,7 @@ export default function Game({ game, id }) {
 
 	return (
 		<main className="flex flex-col sm:flex-row items-center text-white justify-center grow sm:p-8">
-			{status === AVAILABLE ? (
+			{waitingForOpponent ? (
 				<InviteToGame />
 			) : (
 				<>
@@ -297,7 +307,7 @@ export default function Game({ game, id }) {
 									: 'Draw'
 								: status !== COMPLETED
 								? status === AVAILABLE
-									? 'Waiting for Opponent'
+									? ''
 									: myTurn
 									? 'Your Turn'
 									: "Opponent's Turn"
