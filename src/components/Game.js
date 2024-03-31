@@ -7,6 +7,7 @@ import { listenToGame, listenGameStarted } from '@/firestore/get-data'
 
 import { checkIfGameWon } from '@/lib/game'
 import InviteToGame from './InviteToGame'
+import HowToPlay from './HowToPlay'
 
 function Peg({ beads, onPegClick, className, lastMoveIndex, winningBeads }) {
 	return (
@@ -70,6 +71,12 @@ export default function Game({ game, id }) {
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 	const [rematchRequested, setRematchRequested] = useState(false)
 	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
+	const [showHowToPlay, setShowHowToPlay] = useState(localStorage.getItem('showHowToPlay') !== 'false')
+
+	const handleShowHowToPlayClose = () => {
+		setShowHowToPlay(false)
+		localStorage.setItem('showHowToPlay', 'false')
+	}
 
 	const boardRef = useRef(null)
 
@@ -349,6 +356,7 @@ export default function Game({ game, id }) {
 							)}
 						</div>
 					</div>
+					{showHowToPlay && <HowToPlay onClose={handleShowHowToPlayClose} />}
 				</>
 			)}
 		</main>

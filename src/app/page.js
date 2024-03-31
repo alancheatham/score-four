@@ -2,14 +2,15 @@
 
 import { auth } from '../../firebase'
 import { useState, useRef, useEffect } from 'react'
-
 import { listenGameStarted } from '@/firestore/get-data'
+import HowToPlay from '@/components/HowToPlay'
 
 export default function HomePage() {
 	const mounted = useRef(false)
 	const [findingGame, setFindingGame] = useState(false)
 	const [playFriend, setPlayFriend] = useState(false)
 	const [playComputer, setPlayComputer] = useState(false)
+	const [showHowToPlay, setShowHowToPlay] = useState(false)
 
 	const [user, setUser] = useState('')
 
@@ -102,6 +103,15 @@ export default function HomePage() {
 					</button>
 				)}
 			</div>
+			<div className="mt-4">
+				<button
+					className="text-2xl h-16 w-60 border-2 text-white rounded hover:opacity-50"
+					onClick={() => setShowHowToPlay(true)}
+				>
+					How To Play
+				</button>
+			</div>
+			{showHowToPlay && <HowToPlay onClose={() => setShowHowToPlay(false)} />}
 		</main>
 	)
 }
