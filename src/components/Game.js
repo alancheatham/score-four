@@ -31,7 +31,7 @@ function Peg({ beads, onPegClick, className, lastMoveIndex, winningBeads }) {
 	)
 }
 
-function Grid({ board, onPegClick, winningPegs, winningBeads, myTurn, status, lastMoveIndex }) {
+function Grid({ board, onPegClick, winningPegs, winningBeads, myTurn, status, lastMoveIndex, isSpectator }) {
 	const pegs = []
 	for (let i = 0; i < 16; i++) {
 		pegs.push(board.slice(i * 4, i * 4 + 4))
@@ -50,7 +50,7 @@ function Grid({ board, onPegClick, winningPegs, winningBeads, myTurn, status, la
 					winningBeads={winningBeads?.filter((bead) => Math.floor(bead / 4) === i).map((bead) => bead % 4)}
 					lastMoveIndex={lastMovePegIndex === i ? lastMoveBeadIndex : null}
 					className={`${winningPegs.length > 0 && !winningPegs.includes(i) && 'opacity-30'} ${
-						myTurn && !beads.find((x) => x === 0) && status === IN_PROGRESS && 'cursor-pointer'
+						myTurn && !beads.find((x) => x === 0) && status === IN_PROGRESS && !isSpectator && 'cursor-pointer'
 					}`}
 				/>
 			))}
@@ -70,8 +70,9 @@ export default function Game({ game, id }) {
 	const isBlack = userId === game.blackPlayer.uid
 	const [myTurn, setMyTurn] = useState(isBlack ? game.moves.length % 2 === 1 : game.moves.length % 2 === 0)
 	const [rematchRequested, setRematchRequested] = useState(false)
-	const [waitingForOpponent, setWaitingForOpponent] = useState(true)
+	const [waitingForOpponent, setWaitingForOpponent] = useState(false)
 	const [showHowToPlay, setShowHowToPlay] = useState(localStorage.getItem('showHowToPlay') !== 'false')
+	const [isSpectator, setIsSpectator] = useState(false)
 
 	const handleShowHowToPlayClose = () => {
 		setShowHowToPlay(false)
@@ -94,9 +95,7 @@ export default function Game({ game, id }) {
 	const moveContainerRef = useRef(null)
 
 	useEffect(() => {
-		if (status !== AVAILABLE) {
-			setWaitingForOpponent(false)
-		}
+		setWaitingForOpponent(status === AVAILABLE)
 	}, [status])
 
 	useEffect(() => {
@@ -159,6 +158,7 @@ export default function Game({ game, id }) {
 	useEffect(() => {
 		if (!mounted.current) {
 			const fetchData = async () => {
+				let isSpectator = false
 				if (game.status === AVAILABLE) {
 					if (userId !== game.blackPlayer.uid && userId !== game.whitePlayer.uid) {
 						setWaitingForOpponent(false)
@@ -169,6 +169,11 @@ export default function Game({ game, id }) {
 					}
 				} else {
 					setWaitingForOpponent(false)
+
+					if (userId !== game.blackPlayer.uid && userId !== game.whitePlayer.uid) {
+						isSpectator = true
+						setIsSpectator(true)
+					}
 				}
 
 				listenToGame(id, (gameData) => {
@@ -183,30 +188,32 @@ export default function Game({ game, id }) {
 					setMyTurn(isBlack ? gameData.moves.length % 2 === 1 : gameData.moves.length % 2 === 0)
 				})
 
-				fetch('/api', {
-					method: 'POST',
-					body: JSON.stringify({
-						message: {
-							type: 'connected-game',
-							gameId: id,
-						},
-						sender: userId,
-					}),
-				})
-
-				window.addEventListener('beforeunload', () => {
+				if (!isSpectator) {
 					fetch('/api', {
 						method: 'POST',
 						body: JSON.stringify({
 							message: {
-								type: 'disconnected-game',
+								type: 'connected-game',
 								gameId: id,
 							},
 							sender: userId,
 						}),
-						keepalive: true, // this is important!
 					})
-				})
+
+					window.addEventListener('beforeunload', () => {
+						fetch('/api', {
+							method: 'POST',
+							body: JSON.stringify({
+								message: {
+									type: 'disconnected-game',
+									gameId: id,
+								},
+								sender: userId,
+							}),
+							keepalive: true, // this is important!
+						})
+					})
+				}
 
 				mounted.current = true
 			}
@@ -222,6 +229,10 @@ export default function Game({ game, id }) {
 	}, [handleKeyStroke])
 
 	const handlePegClick = (i) => {
+		if (isSpectator) {
+			return
+		}
+
 		const newBoard = [...board]
 		const peg = newBoard.slice(i * 4, i * 4 + 4)
 		const emptySlot = peg.findIndex((x) => x === 0)
@@ -297,6 +308,7 @@ export default function Game({ game, id }) {
 								myTurn={myTurn}
 								status={status}
 								lastMoveIndex={lastMoveIndex}
+								isSpectator={isSpectator}
 							/>
 						</div>
 					</div>
@@ -315,6 +327,10 @@ export default function Game({ game, id }) {
 								: status !== COMPLETED
 								? status === AVAILABLE
 									? ''
+									: isSpectator
+									? myTurn
+										? 'White to Move'
+										: 'Black to Move'
 									: myTurn
 									? 'Your Turn'
 									: "Opponent's Turn"
@@ -339,7 +355,7 @@ export default function Game({ game, id }) {
 									</Fragment>
 								))}
 							</div>
-							{(winner || status === COMPLETED) && (
+							{!isSpectator && (winner || status === COMPLETED) && (
 								<button
 									className="flex justify-center items-center h-16 w-full text-2xl hover:bg-slate-700 shrink-0"
 									onClick={handleRematchClick}
